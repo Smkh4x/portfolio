@@ -17,14 +17,12 @@ const ActivityBar = () => {
           <div
             key={item.id}
             onClick={() => setActive(item.id)}
-            className={`relative group cursor-pointer w-full flex justify-center py-2 ${
-              active === item.id ? 'border-l-2 border-primary' : ''
-            }`}
+            className={`relative group cursor-pointer w-full flex justify-center py-2 ${active === item.id ? 'border-l-2 border-primary' : ''
+              }`}
           >
             <span
-              className={`material-symbols-outlined ${
-                active === item.id ? 'text-white' : 'text-outline-variant hover:text-white'
-              }`}
+              className={`material-symbols-outlined ${active === item.id ? 'text-white' : 'text-outline-variant hover:text-white'
+                }`}
               data-weight={active === item.id ? "fill" : "regular"}
             >
               {item.icon}
