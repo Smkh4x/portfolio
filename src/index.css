@@ -8,15 +8,23 @@
 
 @layer base {
   body {
-    @apply bg-background text-on-background font-editor-code selection:bg-primary/30 overflow-hidden h-screen flex flex-col;
+    @apply bg-background text-on-background font-editor-code overflow-hidden h-screen flex flex-col;
     min-height: max(884px, 100dvh);
+  }
+
+  ::selection {
+    background-color: hsl(var(--primary) / 0.3);
   }
 }
 
 @layer components {
   .material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-    font-size: 18px; /* Default size */
+    font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24;
+    font-size: 18px;
   }
 }
 
@@ -26,18 +34,22 @@
     width: 10px;
     height: 10px;
   }
+
   .custom-scrollbar::-webkit-scrollbar-track,
   ::-webkit-scrollbar-track {
     background: transparent;
   }
+
   .custom-scrollbar::-webkit-scrollbar-thumb,
   ::-webkit-scrollbar-thumb {
     background: #333;
   }
+
   .custom-scrollbar::-webkit-scrollbar-thumb:hover,
   ::-webkit-scrollbar-thumb:hover {
     background: #444;
   }
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
@@ -51,20 +63,49 @@
   }
 
   /* Syntax Highlighting Utility Classes */
-  .syntax-keyword { color: #569cd6; }
-  .syntax-string { color: #ce9178; }
-  .syntax-function { color: #dcdcaa; }
-  .syntax-comment { color: #6a9955; }
-  .syntax-variable { color: #9cdcfe; }
-  .syntax-bracket { color: #ffd700; }
-  .syntax-operator { color: #d4d4d4; }
-  .syntax-tag { color: #808080; }
-  .syntax-attr { color: #9cdcfe; }
+  .syntax-keyword {
+    color: #569cd6;
+  }
+
+  .syntax-string {
+    color: #ce9178;
+  }
+
+  .syntax-function {
+    color: #dcdcaa;
+  }
+
+  .syntax-comment {
+    color: #6a9955;
+  }
+
+  .syntax-variable {
+    color: #9cdcfe;
+  }
+
+  .syntax-bracket {
+    color: #ffd700;
+  }
+
+  .syntax-operator {
+    color: #d4d4d4;
+  }
+
+  .syntax-tag {
+    color: #808080;
+  }
+
+  .syntax-attr {
+    color: #9cdcfe;
+  }
 
   .cursor-blink {
     animation: blink 1s step-end infinite;
   }
+
   @keyframes blink {
-    50% { opacity: 0; }
+    50% {
+      opacity: 0;
+    }
   }
 }
