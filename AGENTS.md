@@ -2,7 +2,7 @@
 
 ## Overview
 
-VS Code Inspired Developer Portfolio
+Minimal SaaS / Stitch UI Developer Portfolio
 
 ## Tech Stack
 
@@ -12,44 +12,24 @@ VS Code Inspired Developer Portfolio
 
 ## Design System
 
-The UI must look like Visual Studio Code.
+The UI must follow the minimal SaaS design pattern provided by Stitch.
 
-### Colors
+### Layout & UI Rules
 
-- Background: #1e1e1e
-- Sidebar: #252526
-- Activity Bar: #181818
-- Accent: #007acc
-- Text: #d4d4d4
-
-### Layout
-
-- Left Activity Bar
-- Explorer Sidebar
-- Top Tabs
-- Code Editor
-- Status Bar
-
-### UI Rules
-
-- Use JetBrains Mono font
-- Use VSCode spacing
-- Use VSCode style icons
-- No rounded modern SaaS cards
-- No glassmorphism
-- No bright gradients
-- Keep everything developer-focused
+- Clean, minimal, professional portfolio look.
+- Follow exactly the spacing, typography, and layout identical to the original Stitch update.html.
+- Use Inter and JetBrains Mono fonts.
+- Preserve existing logic (projects, contact/email, routing).
 
 ### Components
 
-- Sidebar
-- Explorer
-- EditorTabs
-- CodeWindow
-- Terminal
-- StatusBar
+- Single-page scrolling structure
+- Hero Section
+- Projects Grid Section
+- About Section
+- Contact Section (with active EmailJS logic)
 
 ## Goal
 
-The portfolio should feel like a real VS Code workspace.
-Visitors should feel they are browsing source code.
+The portfolio should feel like a premium, modern developer portfolio.
+Visitors should experience a clean, highly readable interface.
