@@ -52,6 +52,7 @@ export default function App() {
   const [sweeping, setSweeping] = useState(false);
   const [githubLoading, setGithubLoading] = useState(false);
   const [linkedinLoading, setLinkedinLoading] = useState(false);
+  const [cvDropdownOpen, setCvDropdownOpen] = useState(false);
 
   const handleGithubClick = (e) => {
     e.preventDefault();
@@ -277,7 +278,7 @@ export default function App() {
                 </p>
 
                 {/* CTA buttons */}
-                <div className="flex flex-col sm:flex-row items-center md:items-start justify-center md:justify-start gap-stack-md w-full sm:w-auto" style={{ marginTop: 8 }}>
+                <div className="flex flex-col sm:flex-row flex-wrap items-center md:items-start justify-center md:justify-start gap-stack-md w-full sm:w-auto" style={{ marginTop: 8 }}>
                   <button
                     onClick={handleViewProjects}
                     className="w-full sm:w-auto bg-on-surface text-on-primary font-label-md text-label-md px-8 py-4 hover:bg-primary transition-colors duration-300 text-center cursor-pointer">
@@ -288,12 +289,32 @@ export default function App() {
                     className="w-full sm:w-auto border border-outline-variant text-on-surface font-label-md text-label-md px-8 py-4 hover:border-outline hover:text-primary transition-colors duration-300 text-center">
                     Contact Me
                   </a>
-                  <a
-                    href="/assets/cv.pdf"
-                    download="Almona-CV.pdf"
-                    className="cv-download-btn w-full sm:w-auto font-label-md text-label-md px-8 py-4 text-center transition-colors duration-300">
-                    Download CV
-                  </a>
+                  <div className="relative w-full sm:w-auto" onMouseLeave={() => setCvDropdownOpen(false)}>
+                    <button
+                      onClick={() => setCvDropdownOpen(!cvDropdownOpen)}
+                      className="cv-download-btn w-full font-label-md text-label-md px-8 py-4 text-center transition-colors duration-300 flex items-center justify-center gap-2">
+                      Download CV
+                      <span className="material-symbols-outlined transition-transform duration-300" style={{ fontSize: 18, transform: cvDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>expand_more</span>
+                    </button>
+                    <AnimatePresence>
+                      {cvDropdownOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute top-full left-0 w-full mt-2 bg-surface border border-outline-variant shadow-lg overflow-hidden z-50 flex flex-col"
+                        >
+                          <a href="/assets/cv.pdf" download="Almona-CV-EN.pdf" onClick={() => setCvDropdownOpen(false)} className="px-4 py-3 text-center text-label-md text-on-surface hover:bg-primary hover:text-on-primary transition-colors">
+                            English
+                          </a>
+                          <a href="/assets/cvFR.pdf" download="Almona-CV-FR.pdf" onClick={() => setCvDropdownOpen(false)} className="px-4 py-3 text-center text-label-md text-on-surface hover:bg-primary hover:text-on-primary transition-colors border-t border-outline-variant/30">
+                            Français
+                          </a>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </div>
               </div>
             </motion.div>
