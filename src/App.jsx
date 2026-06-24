@@ -289,7 +289,7 @@ export default function App() {
                     className="w-full sm:w-auto border border-outline-variant text-on-surface font-label-md text-label-md px-8 py-4 hover:border-outline hover:text-primary transition-colors duration-300 text-center">
                     Contact Me
                   </a>
-                  <div className="relative w-full sm:w-auto" onMouseLeave={() => setCvDropdownOpen(false)}>
+                  <div className="relative w-full sm:w-auto">
                     <button
                       onClick={() => setCvDropdownOpen(!cvDropdownOpen)}
                       className="cv-download-btn w-full font-label-md text-label-md px-8 py-4 text-center transition-colors duration-300 flex items-center justify-center gap-2">
