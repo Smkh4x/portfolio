@@ -6,7 +6,11 @@
 @tailwind utilities;
 
 /* ─── Base ──────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 @layer base {
   html {
@@ -27,6 +31,7 @@
 }
 
 @layer components {
+
   /* Material Symbols */
   .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -45,6 +50,7 @@
   .project-card .project-image {
     transition: transform 700ms ease;
   }
+
   .project-card:hover .project-image {
     transform: scale(1.04);
   }
@@ -94,10 +100,12 @@
     justify-content: center;
     transition: border-color 0.25s, background 0.25s;
   }
+
   .contact-link:hover .contact-icon {
     border-color: #0050cb;
     background: #dae1ff;
   }
+
   .contact-link:hover .contact-icon span,
   .contact-link:hover .contact-label {
     color: #0050cb;
@@ -117,9 +125,11 @@
     outline: none;
     appearance: none;
   }
+
   .form-input::placeholder {
     color: rgba(66, 70, 86, 0.45);
   }
+
   .form-input:focus {
     border-color: #0050cb;
   }
@@ -143,6 +153,73 @@
     background: #eeeeee;
   }
 
+  /* ─── Profile hover crossfade ────────────────────────────── */
+  .profile-hover-wrap {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .profile-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.5s ease, filter 0.5s ease;
+  }
+
+  /* Original sits on top, always visible by default */
+  .profile-layer-original {
+    opacity: 1;
+    filter: grayscale(1) brightness(1.05);
+    z-index: 2;
+  }
+
+  /* AI version hidden by default */
+  .profile-layer-ai {
+    opacity: 0;
+    filter: none;
+    z-index: 1;
+  }
+
+  /* On hover: AI fades in, original fades out */
+  .profile-hover-wrap:hover .profile-layer-ai {
+    opacity: 1;
+  }
+
+  .profile-hover-wrap:hover .profile-layer-original {
+    opacity: 0.1;
+  }
+
+  /* "Original" label appears at bottom on hover */
+  .profile-hover-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 0;
+    background: rgba(0, 0, 0, 0.45);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.9);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+    content: 'AI Enhanced';
+  }
+
+  .profile-hover-wrap:hover .profile-hover-label {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   @media (max-width: 768px) {
     .hero-profile-img {
       width: 160px;
@@ -158,6 +235,7 @@
     white-space: nowrap;
     text-decoration: none;
   }
+
   .cv-download-btn:hover {
     background: #dae1ff;
     border-color: #003fa4;
@@ -167,30 +245,118 @@
 
 /* ─── Keyframes ─────────────────────────────────────────── */
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.5; transform: scale(0.8); }
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
 }
 
 @keyframes bounce-arrow {
-  0%, 100% { transform: translateY(0); opacity: 0.4; }
-  50%       { transform: translateY(5px); opacity: 0.7; }
+
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+
+  50% {
+    transform: translateY(5px);
+    opacity: 0.7;
+  }
 }
 
 @layer utilities {
+
   /* Thin, clean scrollbar */
-  ::-webkit-scrollbar        { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track  { background: transparent; }
-  ::-webkit-scrollbar-thumb  { background: #c2c6d8; border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: #727687; }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #c2c6d8;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #727687;
+  }
 
   /* Responsive headline */
   @media (max-width: 640px) {
     .headline-responsive {
-      font-size: 36px !important;
+      font-size: 32px !important;
       letter-spacing: -0.03em !important;
     }
+
     .hero-subtitle {
       font-size: 16px !important;
+    }
+  }
+
+  /* ─── Mobile section spacing ─────────────────────────────── */
+  @media (max-width: 768px) {
+
+    /* Shrink the large 120px section gap to something comfortable */
+    .py-section-gap {
+      padding-top: 64px !important;
+      padding-bottom: 64px !important;
+    }
+
+    /* Tighter horizontal gutter on phones */
+    .px-gutter {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+
+    /* Hero min-height: just enough to not feel empty */
+    section.min-h-screen {
+      min-height: 100svh;
+    }
+  }
+
+  /* ─── About section: stats come AFTER text on mobile ─────── */
+  @media (max-width: 768px) {
+    .about-left {
+      order: 2;
+    }
+
+    .about-right {
+      order: 1;
+    }
+  }
+
+  /* ─── Contact divider text adapts to bg ──────────────────── */
+  .divider-label {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 12px;
+    white-space: nowrap;
+  }
+
+  /* ─── Touch-friendly buttons & links ─────────────────────── */
+  @media (max-width: 768px) {
+    .contact-icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    /* Give footer links more tap space */
+    footer a {
+      padding: 4px 0;
     }
   }
 }

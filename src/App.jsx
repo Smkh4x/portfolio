@@ -3,6 +3,7 @@ import ContactForm from './components/ContactForm';
 import FloatingSymbols from './components/FloatingSymbols';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import profileImg from './assets/profile.jpg';
+import profileImgOriginal from './assets/rofilePR.jpg';
 
 // ─── Data ─────────────────────────────────────────────────────────────────
 const PROJECTS = [
@@ -23,7 +24,7 @@ const PROJECTS = [
 ];
 
 const SKILLS = ['React / Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'AWS', 'Docker', 'Go', 'Tailwind CSS'];
-const STATS  = [{ v: '5+', l: 'Years experience' }, { v: '40+', l: 'Projects shipped' }, { v: '99%', l: 'Client satisfaction' }, { v: '3', l: 'OSS packages' }];
+const STATS = [{ v: '5+', l: 'Years experience' }, { v: '40+', l: 'Projects shipped' }, { v: '99%', l: 'Client satisfaction' }, { v: '3', l: 'OSS packages' }];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────
 const fadeUp = { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } } };
@@ -41,11 +42,64 @@ function Reveal({ children, delay = 0, className = '' }) {
   );
 }
 
+
 // ─── App ──────────────────────────────────────────────────────────────────
 export default function App() {
-  const [ready,    setReady]    = useState(false);
+  const [ready, setReady] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
+  const [sweeping, setSweeping] = useState(false);
+  const [githubLoading, setGithubLoading] = useState(false);
+  const [linkedinLoading, setLinkedinLoading] = useState(false);
+
+  const handleGithubClick = (e) => {
+    e.preventDefault();
+    if (githubLoading) return;
+    setGithubLoading(true);
+    setTimeout(() => {
+      window.open('https://github.com/Smkh4x', '_blank', 'noopener,noreferrer');
+      setTimeout(() => setGithubLoading(false), 400);
+    }, 1100);
+  };
+
+  const handleLinkedinClick = (e) => {
+    e.preventDefault();
+    if (linkedinLoading) return;
+    setLinkedinLoading(true);
+    setTimeout(() => {
+      window.open('https://www.linkedin.com/in/youssef-almona', '_blank', 'noopener,noreferrer');
+      setTimeout(() => setLinkedinLoading(false), 400);
+    }, 1100);
+  };
+
+  const handleViewProjects = (e) => {
+    e.preventDefault();
+    if (sweeping) return;
+    setSweeping('work');
+    setTimeout(() => {
+      document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' });
+    }, 480);
+    setTimeout(() => setSweeping(false), 900);
+  };
+
+  const handleContactClick = (e) => {
+    e.preventDefault();
+    if (sweeping) return;
+    setSweeping('contact');
+    setTimeout(() => {
+      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    }, 480);
+    setTimeout(() => setSweeping(false), 900);
+  };
+
+  const handleEmailClick = (e) => {
+    e.preventDefault();
+    navigator.clipboard.writeText('youssef.dev.sec@gmail.com').then(() => {
+      setEmailCopied(true);
+      setTimeout(() => setEmailCopied(false), 2500);
+    });
+  };
 
   // Active nav tracking via IntersectionObserver
   const [activeNav, setActiveNav] = useState('work');
@@ -88,6 +142,43 @@ export default function App() {
         )}
       </AnimatePresence>
 
+      {/* ══ FULL-SCREEN SWEEP EFFECT ═════════════════════════════ */}
+      <AnimatePresence>
+        {sweeping && (
+          <motion.div
+            key="sweep"
+            className="fixed inset-0 z-[90] pointer-events-none"
+            style={{ originX: 0 }}
+          >
+            {/* Primary sweep — slides in from left */}
+            <motion.div
+              className="absolute inset-0 bg-primary"
+              initial={{ scaleX: 0, originX: 0 }}
+              animate={{ scaleX: [0, 1, 1, 0] }}
+              transition={{ duration: 0.85, times: [0, 0.4, 0.55, 1], ease: 'easeInOut' }}
+            />
+            {/* Secondary sweep — slightly delayed, lighter shade */}
+            <motion.div
+              className="absolute inset-0 bg-primary-fixed"
+              initial={{ scaleX: 0, originX: 0 }}
+              animate={{ scaleX: [0, 1, 1, 0] }}
+              transition={{ duration: 0.85, times: [0, 0.4, 0.55, 1], ease: 'easeInOut', delay: 0.07 }}
+            />
+            {/* Center flash label */}
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 1, 1, 0] }}
+              transition={{ duration: 0.85, times: [0, 0.38, 0.56, 0.75] }}
+            >
+              <span className="font-label-caps text-label-caps text-on-primary tracking-widest" style={{ fontSize: 13 }}>
+                {sweeping === 'contact' ? 'GET IN TOUCH' : 'FEATURED WORK'}
+              </span>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className={`transition-opacity duration-500 ${ready ? 'opacity-100' : 'opacity-0'} bg-surface text-on-surface overflow-x-hidden`}>
 
         {/* ══ ANIMATED BACKGROUND ═════════════════════════════ */}
@@ -102,13 +193,13 @@ export default function App() {
             <a href="#" className="flex items-center gap-2 group">
               <span className="material-symbols-outlined text-primary" style={{ fontSize: 22 }}>terminal</span>
               <span className="font-headline-lg font-bold tracking-tight text-on-surface"
-                style={{ fontSize: 18, lineHeight: 1 }}>ALEX.DEV</span>
+                style={{ fontSize: 18, lineHeight: 1 }}>ALMONA</span>
             </a>
 
             {/* Desktop nav */}
             <nav className="hidden md:flex items-center gap-stack-lg">
-              <a href="#work"    className={navClass('work')}>Work</a>
-              <a href="#about"   className={navClass('about')}>About</a>
+              <a href="#work" className={navClass('work')}>Work</a>
+              <a href="#about" className={navClass('about')}>About</a>
               <a href="#contact" className={navClass('contact')}>Contact</a>
             </nav>
 
@@ -146,19 +237,26 @@ export default function App() {
         <main className="w-full">
 
           {/* ══ HERO ══════════════════════════════════════════════ */}
-          <section className="min-h-screen flex flex-col items-center justify-center px-gutter pt-16 pb-20 relative">
+          <section className="min-h-screen flex flex-col items-center justify-center px-gutter pt-16 pb-16 sm:pb-20 relative">
             <motion.div
               initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
-              className="max-w-container-max w-full mx-auto flex flex-col md:flex-row items-center md:items-center justify-center gap-12 md:gap-16">
+              className="max-w-container-max w-full mx-auto flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
 
-              {/* ── Profile image ── */}
+              {/* ── Profile image — hover to reveal original ── */}
               <div className="hero-profile-wrapper flex-shrink-0">
-                <div className="hero-profile-img">
+                <div className="hero-profile-img profile-hover-wrap">
+                  {/* AI-enhanced — default */}
                   <img
                     src={profileImg}
-                    alt="Alex Carter — Full-stack Developer"
-                    className="w-full h-full object-cover"
+                    alt="Youssef Al Mona — Full-stack Developer"
+                    className="profile-layer profile-layer-ai"
+                  />
+                  {/* Original — revealed on hover */}
+                  <img
+                    src={profileImgOriginal}
+                    alt="Youssef Al Mona — Original photo"
+                    className="profile-layer profile-layer-original"
                   />
                 </div>
               </div>
@@ -166,15 +264,9 @@ export default function App() {
               {/* ── Text + CTAs ── */}
               <div className="flex flex-col items-center md:items-start gap-stack-md text-center md:text-left max-w-xl">
 
-                {/* Status badge */}
-                <div className="status-badge">
-                  <span className="status-dot" />
-                  AVAILABLE FOR NEW PROJECTS
-                </div>
-
                 {/* Headline */}
                 <h1 className="font-headline-xl text-headline-xl text-on-surface headline-responsive" style={{ marginTop: 4 }}>
-                  Hi, I'm Alex Carter, a{' '}
+                  Hi, I'm Youssef Al Mona, a{' '}
                   <span className="text-primary">Full-stack&nbsp;Developer</span>
                 </h1>
 
@@ -186,17 +278,19 @@ export default function App() {
 
                 {/* CTA buttons */}
                 <div className="flex flex-col sm:flex-row items-center md:items-start justify-center md:justify-start gap-stack-md w-full sm:w-auto" style={{ marginTop: 8 }}>
-                  <a href="#work"
-                    className="w-full sm:w-auto bg-on-surface text-on-primary font-label-md text-label-md px-8 py-4 hover:bg-primary transition-colors duration-300 text-center">
+                  <button
+                    onClick={handleViewProjects}
+                    className="w-full sm:w-auto bg-on-surface text-on-primary font-label-md text-label-md px-8 py-4 hover:bg-primary transition-colors duration-300 text-center cursor-pointer">
                     View Projects
-                  </a>
+                  </button>
                   <a href="#contact"
+                    onClick={handleContactClick}
                     className="w-full sm:w-auto border border-outline-variant text-on-surface font-label-md text-label-md px-8 py-4 hover:border-outline hover:text-primary transition-colors duration-300 text-center">
                     Contact Me
                   </a>
                   <a
                     href="/assets/cv.pdf"
-                    download="Alex_Carter_CV.pdf"
+                    download="Almona-CV.pdf"
                     className="cv-download-btn w-full sm:w-auto font-label-md text-label-md px-8 py-4 text-center transition-colors duration-300">
                     Download CV
                   </a>
@@ -261,49 +355,119 @@ export default function App() {
           {/* ══ ABOUT ═════════════════════════════════════════════ */}
           <section id="about" className="py-section-gap border-y border-outline-variant/20 bg-surface-container-low">
             <div className="max-w-container-max mx-auto px-gutter">
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
 
-                {/* Left */}
-                <Reveal className="md:col-span-4">
-                  <h2 className="font-label-caps text-label-caps text-primary uppercase section-label">The Philosophy</h2>
+              {/* ── Section label ── */}
+              <Reveal className="mb-10">
+                <h2 className="font-label-caps text-label-caps text-primary uppercase section-label">About Me</h2>
+              </Reveal>
 
-                  {/* Stats */}
-                  <div className="grid grid-cols-2 gap-4 mt-10">
-                    {STATS.map(s => (
-                      <div key={s.l}>
-                        <p className="font-headline-lg text-on-surface" style={{ fontSize: 36, letterSpacing: '-0.03em' }}>{s.v}</p>
-                        <p className="font-label-caps text-label-caps text-on-surface-variant mt-1">{s.l}</p>
-                      </div>
-                    ))}
+              {/* ── Bio ── */}
+              <Reveal className="mb-12">
+                <p className="font-headline-lg text-headline-lg text-on-surface leading-snug" style={{ maxWidth: 720 }}>
+                  I specialize in bridging{' '}
+                  <em className="not-italic text-on-surface-variant">technical precision</em>
+                  {' '}and{' '}
+                  <em className="not-italic text-on-surface-variant">human-centered design</em>.
+                </p>
+                <p className="font-body-lg text-body-lg text-on-surface-variant mt-stack-md" style={{ maxWidth: 680 }}>
+                  Self-taught developer from Fkih Ben Salah, Morocco — building full-stack web and mobile apps, exploring AI tooling, and shipping real products with clean code and thoughtful UIs.
+                </p>
+              </Reveal>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+
+                {/* ── Formation ── */}
+                <Reveal>
+                  <p className="font-label-caps text-label-caps text-primary uppercase section-label mb-8">Formation</p>
+
+                  {/* Entry 1 */}
+                  <div className="relative pl-6 pb-10 border-l-2 border-outline-variant/40">
+                    <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-primary border-2 border-surface-container-low" />
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
+                      <h3 className="font-headline-lg text-on-surface" style={{ fontSize: 17 }}>CCFBS – Simplon Maghreb</h3>
+                      <span className="font-label-caps text-label-caps text-primary bg-primary-fixed px-2 py-0.5 rounded-sm">2026</span>
+                    </div>
+                    <p className="font-label-md text-label-md text-on-surface-variant mb-2">Full Stack &amp; Mobile Development Training</p>
+                    <p className="font-body-md text-body-md text-on-surface-variant/70">
+                      Intensive professional training at Ccfbs-Simplon Maghreb covering full-stack web and mobile development with modern frameworks and industry practices.
+                    </p>
+                  </div>
+
+                  {/* Entry 2 */}
+                  <div className="relative pl-6 border-l-2 border-outline-variant/20">
+                    <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-outline-variant border-2 border-surface-container-low" />
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
+                      <h3 className="font-headline-lg text-on-surface" style={{ fontSize: 17 }}>Self-Study &amp; Continuous Learning</h3>
+                      <span className="font-label-caps text-label-caps text-on-surface-variant bg-surface-container px-2 py-0.5 rounded-sm">2022 – Present</span>
+                    </div>
+                    <p className="font-label-md text-label-md text-on-surface-variant mb-2">Fkih Ben Salah, Morocco</p>
+                    <p className="font-body-md text-body-md text-on-surface-variant/70">
+                      Independently mastering computer science, web &amp; mobile development, UI/UX design, and modern AI tools through projects, courses, and real-world building.
+                    </p>
+                  </div>
+
+                  {/* Languages */}
+                  <div className="mt-10 pt-8 border-t border-outline-variant/30">
+                    <p className="font-label-caps text-label-caps text-on-surface-variant mb-4">Languages</p>
+                    <div className="flex flex-wrap gap-3">
+                      {[
+                        { lang: 'Arabic', level: 'Native', color: '#0050cb' },
+                        { lang: 'English', level: 'B2', color: '#424656' },
+                        { lang: 'French', level: 'A1', color: '#727687' },
+                      ].map(l => (
+                        <div key={l.lang} className="flex items-center gap-2 px-3 py-2 bg-surface border border-outline-variant/50 rounded-sm">
+                          <span className="font-label-caps text-label-caps text-on-surface">{l.lang}</span>
+                          <span className="font-label-caps text-label-caps px-1.5 py-0.5 rounded-sm text-on-primary" style={{ background: l.color, fontSize: 9 }}>{l.level}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </Reveal>
 
-                {/* Right */}
-                <Reveal delay={0.1} className="md:col-span-8">
-                  <p className="font-headline-lg text-headline-lg text-on-surface leading-snug">
-                    I specialize in bridging the gap between{' '}
-                    <em className="not-italic text-on-surface-variant">technical precision</em>
-                    {' '}and{' '}
-                    <em className="not-italic text-on-surface-variant">human-centered design</em>.
-                    My code is written for maintainability, and my interfaces are built for clarity.
-                  </p>
+                {/* ── Skills ── */}
+                <Reveal delay={0.1}>
+                  <p className="font-label-caps text-label-caps text-primary uppercase section-label mb-8">Skills</p>
 
-                  <p className="font-body-lg text-body-lg text-on-surface-variant mt-stack-lg">
-                    With a background in systems architecture and visual design, I approach every project
-                    as a balance of robust logic and editorial aesthetics. I believe that professional
-                    software shouldn't just work—it should feel effortless.
-                  </p>
-
-                  {/* Skills */}
-                  <div className="mt-8 pt-8 border-t border-outline-variant/30">
-                    <p className="font-label-caps text-label-caps text-on-surface-variant mb-4">Core Technologies</p>
-                    <div className="flex flex-wrap gap-2">
-                      {SKILLS.map(s => (
-                        <span key={s} className="font-label-caps text-label-caps px-3 py-1.5 bg-surface border border-outline-variant/50 text-on-surface-variant hover:border-outline hover:text-on-surface transition-colors cursor-default">
-                          {s}
-                        </span>
-                      ))}
-                    </div>
+                  <div className="flex flex-col gap-6">
+                    {[
+                      {
+                        icon: '⟨/⟩', label: 'Core Languages', color: '#0050cb',
+                        items: ['JavaScript', 'TypeScript', 'HTML / CSS', 'C', 'SQL', 'NoSQL'],
+                      },
+                      {
+                        icon: '◈', label: 'Frontend & Mobile', color: '#a33200',
+                        items: ['React', 'React Native', 'Zustand', 'TailwindCSS', 'Nativewind', 'Material-UI', 'Axios'],
+                      },
+                      {
+                        icon: '⬡', label: 'Backend & APIs', color: '#3a7d44',
+                        items: ['Node.js', 'Express.js'],
+                      },
+                      {
+                        icon: '✦', label: 'AI Tools', color: '#6b3fa0',
+                        items: ['Anthropic Claude API', 'Claude Code', 'Cursor IDE', 'Antigravity'],
+                      },
+                      {
+                        icon: '◎', label: 'DevOps & Databases', color: '#b25a00',
+                        items: ['Git', 'Docker', 'MongoDB', 'PostgreSQL', 'MySQL', 'Linux'],
+                      },
+                    ].map((cat) => (
+                      <div key={cat.label}>
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className="font-label-caps" style={{ color: cat.color, fontSize: 14 }}>{cat.icon}</span>
+                          <span className="font-label-caps text-label-caps text-on-surface-variant">{cat.label}</span>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {cat.items.map(item => (
+                            <span key={item}
+                              className="font-label-caps text-label-caps px-3 py-1.5 bg-surface border border-outline-variant/50 text-on-surface-variant hover:border-outline hover:text-on-surface transition-colors cursor-default"
+                              style={{ fontSize: 10 }}
+                            >
+                              {item}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </Reveal>
 
@@ -331,31 +495,159 @@ export default function App() {
 
               {/* Contact links */}
               <Reveal className="flex flex-wrap justify-center gap-8 mb-12">
-                <a href="mailto:hello@alex.dev" className="contact-link group flex flex-col items-center gap-2">
-                  <div className="contact-icon">
-                    <span className="material-symbols-outlined text-on-surface" style={{ fontSize: 22 }}>mail</span>
+                {/* Email — click to reveal & copy */}
+                <button
+                  onClick={handleEmailClick}
+                  className="contact-link group flex flex-col items-center gap-2 bg-transparent border-none cursor-pointer relative"
+                  aria-label="Copy email address"
+                >
+                  <div className={`contact-icon transition-all duration-300 ${emailCopied ? 'border-primary bg-primary-fixed' : ''}`}>
+                    <span className="material-symbols-outlined text-on-surface" style={{ fontSize: 22 }}>
+                      {emailCopied ? 'check' : 'mail'}
+                    </span>
                   </div>
-                  <span className="contact-label font-label-caps text-label-caps text-on-surface-variant transition-colors">Email</span>
-                </a>
-                <a href="#" className="contact-link group flex flex-col items-center gap-2">
-                  <div className="contact-icon">
-                    <span className="material-symbols-outlined text-on-surface" style={{ fontSize: 22 }}>code</span>
+                  <span className="contact-label font-label-caps text-label-caps text-on-surface-variant transition-colors">
+                    {emailCopied ? 'Copied!' : 'Email'}
+                  </span>
+
+                  {/* Animated email reveal tooltip */}
+                  <AnimatePresence>
+                    {emailCopied && (
+                      <motion.span
+                        key="email-tooltip"
+                        initial={{ opacity: 0, y: 6, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 4, scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-on-surface text-on-primary font-label-caps text-label-caps px-3 py-1 rounded-sm shadow-md"
+                        style={{ fontSize: 10, zIndex: 10 }}
+                      >
+                        youssef.dev.sec@gmail.com
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </button>
+                {/* GitHub — upload animation on click */}
+                <button
+                  onClick={handleGithubClick}
+                  className="contact-link group flex flex-col items-center gap-2 bg-transparent border-none cursor-pointer relative"
+                  aria-label="Open GitHub profile"
+                  style={{ minWidth: 64 }}
+                >
+                  {/* Icon circle */}
+                  <div className={`contact-icon transition-all duration-300 overflow-hidden ${githubLoading ? 'border-primary bg-primary-fixed' : ''
+                    }`}>
+                    <AnimatePresence mode="wait">
+                      {githubLoading ? (
+                        <motion.span
+                          key="upload"
+                          className="material-symbols-outlined"
+                          style={{ fontSize: 22, color: '#0050cb' }}
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: [-4, -10, -4], opacity: 1 }}
+                          transition={{ y: { repeat: Infinity, duration: 0.7, ease: 'easeInOut' }, opacity: { duration: 0.2 } }}
+                        >upload</motion.span>
+                      ) : (
+                        <motion.span
+                          key="code"
+                          className="material-symbols-outlined text-on-surface"
+                          style={{ fontSize: 22 }}
+                          initial={{ y: -20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ duration: 0.2 }}
+                        >code</motion.span>
+                      )}
+                    </AnimatePresence>
                   </div>
-                  <span className="contact-label font-label-caps text-label-caps text-on-surface-variant transition-colors">GitHub</span>
-                </a>
-                <a href="#" className="contact-link group flex flex-col items-center gap-2">
-                  <div className="contact-icon">
-                    <span className="material-symbols-outlined text-on-surface" style={{ fontSize: 22 }}>person_outline</span>
+
+                  {/* Label */}
+                  <AnimatePresence mode="wait">
+                    <motion.span
+                      key={githubLoading ? 'going' : 'label'}
+                      className="contact-label font-label-caps text-label-caps transition-colors"
+                      style={{ color: githubLoading ? '#0050cb' : undefined }}
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.18 }}
+                    >
+                      {githubLoading ? 'Going...' : 'GitHub'}
+                    </motion.span>
+                  </AnimatePresence>
+
+                  {/* Progress bar */}
+                  <div style={{ width: 56, height: 2, background: '#c2c6d8', borderRadius: 2, overflow: 'hidden', marginTop: 2 }}>
+                    <motion.div
+                      style={{ height: '100%', background: '#0050cb', borderRadius: 2, originX: 0 }}
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: githubLoading ? 1 : 0 }}
+                      transition={{ duration: 1.0, ease: 'easeInOut' }}
+                    />
                   </div>
-                  <span className="contact-label font-label-caps text-label-caps text-on-surface-variant transition-colors">LinkedIn</span>
-                </a>
+                </button>
+                {/* LinkedIn — upload animation on click */}
+                <button
+                  onClick={handleLinkedinClick}
+                  className="contact-link group flex flex-col items-center gap-2 bg-transparent border-none cursor-pointer relative"
+                  aria-label="Open LinkedIn profile"
+                  style={{ minWidth: 64 }}
+                >
+                  <div className={`contact-icon transition-all duration-300 overflow-hidden ${linkedinLoading ? 'border-primary bg-primary-fixed' : ''
+                    }`}>
+                    <AnimatePresence mode="wait">
+                      {linkedinLoading ? (
+                        <motion.span
+                          key="upload-li"
+                          className="material-symbols-outlined"
+                          style={{ fontSize: 22, color: '#0050cb' }}
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: [-4, -10, -4], opacity: 1 }}
+                          transition={{ y: { repeat: Infinity, duration: 0.7, ease: 'easeInOut' }, opacity: { duration: 0.2 } }}
+                        >upload</motion.span>
+                      ) : (
+                        <motion.span
+                          key="person-li"
+                          className="material-symbols-outlined text-on-surface"
+                          style={{ fontSize: 22 }}
+                          initial={{ y: -20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ duration: 0.2 }}
+                        >person_outline</motion.span>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  <AnimatePresence mode="wait">
+                    <motion.span
+                      key={linkedinLoading ? 'li-going' : 'li-label'}
+                      className="contact-label font-label-caps text-label-caps transition-colors"
+                      style={{ color: linkedinLoading ? '#0050cb' : undefined }}
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.18 }}
+                    >
+                      {linkedinLoading ? 'Going...' : 'LinkedIn'}
+                    </motion.span>
+                  </AnimatePresence>
+
+                  <div style={{ width: 56, height: 2, background: '#c2c6d8', borderRadius: 2, overflow: 'hidden', marginTop: 2 }}>
+                    <motion.div
+                      style={{ height: '100%', background: '#0050cb', borderRadius: 2, originX: 0 }}
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: linkedinLoading ? 1 : 0 }}
+                      transition={{ duration: 1.0, ease: 'easeInOut' }}
+                    />
+                  </div>
+                </button>
               </Reveal>
 
               {/* Divider */}
               <Reveal>
                 <div className="relative border-t border-outline-variant/30 mb-10">
-                  <span style={{ position: 'absolute', top: '-10px', left: '50%', transform: 'translateX(-50%)', background: '#f9f9f9', padding: '0 12px' }}
-                    className="font-label-caps text-label-caps text-on-surface-variant">OR SEND A MESSAGE</span>
+                  <span className="divider-label bg-surface font-label-caps text-label-caps text-on-surface-variant">
+                    OR SEND A MESSAGE
+                  </span>
                 </div>
               </Reveal>
 
@@ -371,17 +663,8 @@ export default function App() {
 
         {/* ══ FOOTER ════════════════════════════════════════════ */}
         <footer className="w-full border-t border-outline-variant/20 bg-surface-container-low">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 py-stack-lg px-gutter max-w-container-max mx-auto w-full">
-            <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary" style={{ fontSize: 18 }}>terminal</span>
-              <span className="font-label-caps text-label-caps text-on-surface">ALEX.DEV</span>
-            </div>
-            <div className="flex gap-stack-lg">
-              {['GitHub', 'LinkedIn', 'Twitter'].map(s => (
-                <a key={s} href="#" className="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors">{s}</a>
-              ))}
-            </div>
-            <p className="font-label-caps text-label-caps text-on-surface-variant/60">© 2024 ALEX.DEV. BUILT FOR PRECISION.</p>
+          <div className="flex items-center justify-center py-stack-lg px-gutter">
+            <p className="font-label-caps text-label-caps text-on-surface-variant/60">© 2025 ALMONA. BUILT FOR PRECISION.</p>
           </div>
         </footer>
 
