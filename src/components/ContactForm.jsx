@@ -55,21 +55,25 @@ const ContactForm = () => {
           {/* Name + Email grid (side-by-side on sm+) — matches update.html layout */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-md">
             <div>
-              <label className="block font-label-caps text-label-caps text-on-surface-variant mb-2">Name</label>
+              <label htmlFor="user_name" className="block font-label-caps text-label-caps text-on-surface-variant mb-2">Name</label>
               <input
+                id="user_name"
                 type="text"
                 name="user_name"
                 required
+                autoComplete="name"
                 placeholder="Your name"
                 className="form-input"
               />
             </div>
             <div>
-              <label className="block font-label-caps text-label-caps text-on-surface-variant mb-2">Email</label>
+              <label htmlFor="user_email" className="block font-label-caps text-label-caps text-on-surface-variant mb-2">Email</label>
               <input
+                id="user_email"
                 type="email"
                 name="user_email"
                 required
+                autoComplete="email"
                 placeholder="your@email.com"
                 className="form-input"
               />
@@ -77,11 +81,13 @@ const ContactForm = () => {
           </div>
 
           <div className="mt-stack-md">
-            <label className="block font-label-caps text-label-caps text-on-surface-variant mb-2">Message</label>
+            <label htmlFor="message" className="block font-label-caps text-label-caps text-on-surface-variant mb-2">Message</label>
             <textarea
+              id="message"
               name="message"
               required
               rows={5}
+              autoComplete="off"
               placeholder="Tell me about your project…"
               className="form-input"
             />

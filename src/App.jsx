@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import ContactForm from './components/ContactForm';
-import FloatingSymbols from './components/FloatingSymbols';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
+import SeoHead from './components/SeoHead';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
+
+const ContactForm = lazy(() => import('./components/ContactForm'));
+const FloatingSymbols = lazy(() => import('./components/FloatingSymbols'));
 import profileImg from './assets/profile.jpg';
 import profileImgOriginal from './assets/rofilePR.jpg';
 
@@ -133,6 +135,14 @@ export default function App() {
 
   return (
     <>
+      <SeoHead
+        title="Youssef Al Mona | Full-Stack Developer Portfolio"
+        description="Youssef Al Mona builds modern web applications with React, Node.js, and thoughtful UI systems for startups and growing products."
+        path="/"
+      />
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[120] focus:bg-primary focus:text-on-primary focus:px-4 focus:py-2 focus:rounded-sm">
+        Skip to content
+      </a>
       {/* Splash */}
       <AnimatePresence>
         {!ready && (
@@ -183,7 +193,9 @@ export default function App() {
       <div className={`transition-opacity duration-500 ${ready ? 'opacity-100' : 'opacity-0'} bg-surface text-on-surface overflow-x-hidden`}>
 
         {/* ══ ANIMATED BACKGROUND ═════════════════════════════ */}
-        <FloatingSymbols />
+        <Suspense fallback={null}>
+          <FloatingSymbols />
+        </Suspense>
 
         {/* ══ HEADER ════════════════════════════════════════════ */}
         <header id="site-header"
@@ -191,14 +203,14 @@ export default function App() {
           <div className="flex items-center justify-between h-16 px-gutter max-w-container-max mx-auto w-full">
 
             {/* Logo */}
-            <a href="#" className="flex items-center gap-2 group">
+            <a href="/" className="flex items-center gap-2 group" aria-label="Go to homepage">
               <span className="material-symbols-outlined text-primary" style={{ fontSize: 22 }}>terminal</span>
               <span className="font-headline-lg font-bold tracking-tight text-on-surface"
                 style={{ fontSize: 18, lineHeight: 1 }}>ALMONA</span>
             </a>
 
             {/* Desktop nav */}
-            <nav className="hidden md:flex items-center gap-stack-lg">
+            <nav className="hidden md:flex items-center gap-stack-lg" aria-label="Primary navigation">
               <a href="#work" className={navClass('work')}>Work</a>
               <a href="#about" className={navClass('about')}>About</a>
               <a href="#contact" className={navClass('contact')}>Contact</a>
@@ -208,7 +220,7 @@ export default function App() {
             <button
               className="md:hidden p-2 -mr-2 text-on-surface-variant hover:text-primary transition-colors"
               onClick={() => setMenuOpen(o => !o)}
-              aria-label="Open menu">
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}>
               <span className="material-symbols-outlined" style={{ fontSize: 24 }}>
                 {menuOpen ? 'close' : 'menu'}
               </span>
@@ -235,7 +247,7 @@ export default function App() {
           </AnimatePresence>
         </header>
 
-        <main className="w-full">
+        <main id="main-content" className="w-full">
 
           {/* ══ HERO ══════════════════════════════════════════════ */}
           <section className="min-h-screen flex flex-col items-center justify-center px-gutter pt-16 pb-16 sm:pb-20 relative">
@@ -252,12 +264,16 @@ export default function App() {
                     src={profileImg}
                     alt="Youssef Al Mona — Full-stack Developer"
                     className="profile-layer profile-layer-ai"
+                    loading="eager"
+                    decoding="async"
                   />
                   {/* Original — revealed on hover */}
                   <img
                     src={profileImgOriginal}
                     alt="Youssef Al Mona — Original photo"
                     className="profile-layer profile-layer-original"
+                    loading="eager"
+                    decoding="async"
                   />
                 </div>
               </div>
@@ -674,7 +690,9 @@ export default function App() {
 
               {/* Form — EmailJS logic lives inside ContactForm */}
               <Reveal>
-                <ContactForm />
+                <Suspense fallback={<p className="text-center text-on-surface-variant">Loading contact form…</p>}>
+                  <ContactForm />
+                </Suspense>
               </Reveal>
 
             </div>

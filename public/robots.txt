@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Disallow private or non-public routes if they appear in future releases.
+Disallow: /private/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+
+Sitemap: https://youssefalmona.dev/sitemap.xml
