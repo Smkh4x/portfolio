@@ -1,12 +1,18 @@
 {
-  "name": "Youssef Al Mona | Portfolio",
+  "name": "Almona Portfolio",
   "short_name": "Almona",
-  "description": "Full-stack developer portfolio for Youssef Al Mona.",
+  "description": "Portfolio of full-stack developer Youssef Al Mona, featuring React, Node.js, and modern web applications.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#f9f9f9",
+  "background_color": "#ffffff",
   "theme_color": "#0050cb",
   "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
     {
       "src": "/yicon.png",
       "sizes": "192x192",

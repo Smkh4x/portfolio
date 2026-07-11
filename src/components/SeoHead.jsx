@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
-const baseUrl = 'https://youssefalmona.dev';
+const baseUrl = 'https://almona.online';
 const defaultTitle = 'Youssef Al Mona | Full-Stack Developer Portfolio';
-const defaultDescription = 'Youssef Al Mona is a full-stack developer building high-performance web experiences with thoughtful UI, modern JavaScript, and resilient backend systems.';
+const defaultDescription = 'Youssef Al Mona is a full-stack developer building modern web experiences with React, Node.js, and polished UI systems.';
 const defaultImage = `${baseUrl}/yicon.png`;
 
 function setMetaTag(tagName, attributes, value) {
@@ -81,6 +81,7 @@ export default function SeoHead({ title = defaultTitle, description = defaultDes
     setMetaTag('meta', { name: 'twitter:card' }, 'summary_large_image');
     setMetaTag('meta', { name: 'twitter:title' }, pageTitle);
     setMetaTag('meta', { name: 'twitter:description' }, description);
+    setMetaTag('meta', { name: 'twitter:url' }, canonicalUrl);
     setMetaTag('meta', { name: 'twitter:image' }, image);
     setMetaTag('meta', { name: 'twitter:image:alt' }, 'Youssef Al Mona portfolio preview');
 
@@ -89,57 +90,57 @@ export default function SeoHead({ title = defaultTitle, description = defaultDes
       '@graph': [
         {
           '@type': 'Person',
-          '@id': 'https://youssefalmona.dev/#person',
+          '@id': 'https://almona.online/#person',
           name: 'Youssef Al Mona',
           jobTitle: 'Full-Stack Developer',
-          url: 'https://youssefalmona.dev',
+          url: 'https://almona.online',
           sameAs: ['https://github.com/Smkh4x', 'https://www.linkedin.com/in/youssef-almona'],
           description: description,
           knowsAbout: ['React', 'Node.js', 'TypeScript', 'Tailwind CSS', 'Full-stack development'],
         },
         {
           '@type': 'Organization',
-          '@id': 'https://youssefalmona.dev/#organization',
+          '@id': 'https://almona.online/#organization',
           name: 'Youssef Al Mona',
-          url: 'https://youssefalmona.dev',
+          url: 'https://almona.online',
           sameAs: ['https://github.com/Smkh4x', 'https://www.linkedin.com/in/youssef-almona'],
-          logo: 'https://youssefalmona.dev/yicon.png',
+          logo: 'https://almona.online/yicon.png',
         },
         {
           '@type': 'WebSite',
-          '@id': 'https://youssefalmona.dev/#website',
+          '@id': 'https://almona.online/#website',
           name: 'Youssef Al Mona Portfolio',
-          url: 'https://youssefalmona.dev',
-          publisher: { '@id': 'https://youssefalmona.dev/#organization' },
+          url: 'https://almona.online',
+          publisher: { '@id': 'https://almona.online/#organization' },
           potentialAction: {
             '@type': 'SearchAction',
-            target: 'https://youssefalmona.dev/#contact',
+            target: 'https://almona.online/#contact',
             'query-input': 'required name=search_term_string',
           },
         },
         {
           '@type': 'WebPage',
-          '@id': 'https://youssefalmona.dev/#webpage',
+          '@id': 'https://almona.online/#webpage',
           url: canonicalUrl,
           name: pageTitle,
-          isPartOf: { '@id': 'https://youssefalmona.dev/#website' },
-          about: { '@id': 'https://youssefalmona.dev/#person' },
+          isPartOf: { '@id': 'https://almona.online/#website' },
+          about: { '@id': 'https://almona.online/#person' },
           description,
           inLanguage: 'en-US',
         },
         {
           '@type': 'BreadcrumbList',
           itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://youssefalmona.dev/' },
-            { '@type': 'ListItem', position: 2, name: 'Work', item: 'https://youssefalmona.dev/#work' },
-            { '@type': 'ListItem', position: 3, name: 'Contact', item: 'https://youssefalmona.dev/#contact' },
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://almona.online/' },
+            { '@type': 'ListItem', position: 2, name: 'Work', item: 'https://almona.online/#work' },
+            { '@type': 'ListItem', position: 3, name: 'Contact', item: 'https://almona.online/#contact' },
           ],
         },
         {
           '@type': 'CreativeWork',
-          '@id': 'https://youssefalmona.dev/#portfolio',
+          '@id': 'https://almona.online/#portfolio',
           name: 'Youssef Al Mona Portfolio',
-          creator: { '@id': 'https://youssefalmona.dev/#person' },
+          creator: { '@id': 'https://almona.online/#person' },
           description,
           genre: 'Developer Portfolio',
           about: ['React', 'Node.js', 'TypeScript', 'Tailwind CSS'],
@@ -148,16 +149,16 @@ export default function SeoHead({ title = defaultTitle, description = defaultDes
           '@type': 'Project',
           name: 'Omni Dashboard',
           description: 'A real-time financial tracking platform with automated reporting and custom data hooks.',
-          url: 'https://youssefalmona.dev/#work',
-          creator: { '@id': 'https://youssefalmona.dev/#person' },
+          url: 'https://almona.online/#work',
+          creator: { '@id': 'https://almona.online/#person' },
           keywords: ['React', 'TypeScript', 'Node.js'],
         },
         {
           '@type': 'Project',
           name: 'Apex Commerce',
           description: 'High-performance headless e-commerce storefront with atomic design architecture.',
-          url: 'https://youssefalmona.dev/#work',
-          creator: { '@id': 'https://youssefalmona.dev/#person' },
+          url: 'https://almona.online/#work',
+          creator: { '@id': 'https://almona.online/#person' },
           keywords: ['Next.js', 'PostgreSQL', 'Tailwind'],
         },
       ],

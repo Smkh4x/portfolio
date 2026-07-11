@@ -7,4 +7,5 @@ Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /api/
 
-Sitemap: https://youssefalmona.dev/sitemap.xml
+Sitemap: https://almona.online/sitemap.xml
+Host: almona.online
