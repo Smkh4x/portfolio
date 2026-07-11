@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 const baseUrl = 'https://almona.online';
 const defaultTitle = 'Youssef Al Mona | Full-Stack Developer Portfolio';
 const defaultDescription = 'Youssef Al Mona is a full-stack developer building modern web experiences with React, Node.js, and polished UI systems.';
-const defaultImage = `${baseUrl}/yicon.png`;
+const defaultImage = `${baseUrl}/android-chrome-512x512.png`;
 
 function setMetaTag(tagName, attributes, value) {
   const [[attrName, attrValue]] = Object.entries(attributes);
@@ -58,8 +58,9 @@ export default function SeoHead({ title = defaultTitle, description = defaultDes
     document.documentElement.lang = 'en';
 
     ensureLink('canonical', canonicalUrl);
-    ensureLink('icon', '/yicon.png', { type: 'image/png', sizes: 'any' });
-    ensureLink('apple-touch-icon', '/yicon.png');
+    ensureLink('icon', '/favicon.ico', { type: 'image/x-icon' });
+    ensureLink('shortcut icon', '/favicon.ico');
+    ensureLink('apple-touch-icon', '/apple-touch-icon.png');
     ensureLink('manifest', '/manifest.webmanifest');
 
     setMetaTag('meta', { name: 'description' }, description);
@@ -104,7 +105,7 @@ export default function SeoHead({ title = defaultTitle, description = defaultDes
           name: 'Youssef Al Mona',
           url: 'https://almona.online',
           sameAs: ['https://github.com/Smkh4x', 'https://www.linkedin.com/in/youssef-almona'],
-          logo: 'https://almona.online/yicon.png',
+          logo: 'https://almona.online/android-chrome-512x512.png',
         },
         {
           '@type': 'WebSite',
@@ -144,6 +145,7 @@ export default function SeoHead({ title = defaultTitle, description = defaultDes
           description,
           genre: 'Developer Portfolio',
           about: ['React', 'Node.js', 'TypeScript', 'Tailwind CSS'],
+          image: 'https://almona.online/android-chrome-512x512.png'
         },
         {
           '@type': 'Project',
