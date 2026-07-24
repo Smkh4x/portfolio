@@ -1,0 +1,27 @@
+{
+  "name": "Youssef Al Mona Portfolio",
+  "short_name": "Almona",
+  "description": "Official portfolio of Youssef Al Mona, showcasing premium web applications, React development, and modern product design.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#03091e",
+  "theme_color": "#0050cb",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
