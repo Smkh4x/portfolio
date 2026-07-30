@@ -9,23 +9,122 @@ import profileImgOriginal from './assets/rofilePR.jpg';
 
 // ─── Data ─────────────────────────────────────────────────────────────────
 const PROJECTS = [
+  // ── React Native ──────────────────────────────────────────────────────
   {
-    title: 'Omni Dashboard',
-    desc: 'A real-time financial tracking platform with automated reporting and custom data hooks.',
-    tags: ['React', 'TypeScript', 'Node.js'],
-    github: '#', demo: '#',
-    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBx4RMgH0wWTMsaSNi01VAZJ2VLXGEThObvwate-IacZf-_e57_oOjYX9irQwcsZmN4aWUQwIQYQLREHrNgUIlZiut91cgH4DKKHbp0dVPxdPxC2Q5UBSPy-iss_eD4uVF7q4xrE4me38tz_d-EMyCT4DD0-x8DedeDKkyWGy2qrGz_fHlI9oA40ww-woFDucf-daQ3ag09oHkDMV6viWbMykQ8bdNci6aDxGqxqELJbIA1A7Dl5VdtuXarYocB9wbSqH3PTW8cWM8',
+    category: 'React Native',
+    title: 'FitTrack',
+    desc: 'A mobile fitness tracking app to log workouts, monitor progress, and stay consistent with training goals. Built with React Native and TypeScript.',
+    tags: ['React Native', 'TypeScript', 'Expo'],
+    github: 'https://github.com/Smkh4x/FitTrack-Mobile-app',
+    demo: 'https://github.com/Smkh4x/FitTrack-Mobile-app',
+    img: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800&q=80',
   },
   {
-    title: 'Apex Commerce',
-    desc: 'High-performance headless e-commerce storefront with atomic design architecture.',
-    tags: ['Next.js', 'PostgreSQL', 'Tailwind'],
-    github: '#', demo: '#',
-    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCDUB3VTBr_2jyYDsnom0wU82qI2gGGA-jK-npyU-GH-Kz4_VCeS0aYXRHp3KgJyy67SQ0m7-XbmWly8KPO9icJT8jzdS95lhMnlGyh9T_nTxHRL1kT9AwWn_93D3oE1Iz-AHPXJFkUa_oWrEbIGZq3tmeHW62EdqXzqKdqcLY-z1n_EZPk_jz0bEV78PFgygOGB6NTr9dWo7sGflOqEGfIF8pyCs_BLK9kB-7rRg2lSRAEs64GGW2roF_nbfhnVGNBOqsg0ftKxa0',
+    category: 'React Native',
+    title: 'Maqraa',
+    desc: 'A reading companion mobile app to track books, build reading habits, and organize your personal library. Clean minimal UI built with TypeScript.',
+    tags: ['React Native', 'TypeScript', 'Expo'],
+    github: 'https://github.com/Smkh4x/Maqraa-mobile-app',
+    demo: 'https://github.com/Smkh4x/Maqraa-mobile-app',
+    img: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&q=80',
+  },
+  {
+    category: 'React Native',
+    title: 'Le Petit Souk',
+    desc: 'A mobile marketplace app inspired by Moroccan souks — browse, list, and discover local products with a beautiful native interface.',
+    tags: ['React Native', 'TypeScript', 'Expo'],
+    github: 'https://github.com/Smkh4x/Le_Petit_Souk-Mobile-app',
+    demo: 'https://github.com/Smkh4x/Le_Petit_Souk-Mobile-app',
+    img: 'https://images.unsplash.com/photo-1555529771-7888783a18d3?w=800&q=80',
+  },
+  // ── Web / React ──────────────────────────────────────────────────────
+  {
+    category: 'Web',
+    title: 'Quiz Mind',
+    desc: 'A logic-based quiz platform that challenges users with smart questions to sharpen critical thinking, problem-solving, and reasoning skills. ⭐ 9 stars.',
+    tags: ['JavaScript', 'React', 'CSS'],
+    github: 'https://github.com/Smkh4x/Quiz-Mind',
+    demo: 'https://github.com/Smkh4x/Quiz-Mind',
+    img: 'https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=800&q=80',
+  },
+  {
+    category: 'Web',
+    title: 'Formula 1 Website',
+    desc: 'A high-performance fan website for Formula 1 — featuring race calendars, driver stats, and team standings with a dynamic, modern interface.',
+    tags: ['JavaScript', 'HTML', 'CSS'],
+    github: 'https://github.com/Smkh4x/formula_1-Website',
+    demo: 'https://github.com/Smkh4x/formula_1-Website',
+    img: 'https://images.unsplash.com/photo-1563489958568-9c876e6783c9?w=800&q=80',
+  },
+  {
+    category: 'Web',
+    title: "L'Index Aletheia",
+    desc: 'A minimalist philosophical search engine bridging ancient wisdom with modern design. Brutalist aesthetic, live ZenQuotes API, mobile-first architecture.',
+    tags: ['JavaScript', 'CSS', 'REST API'],
+    github: 'https://github.com/Smkh4x/Lindex_Aletheia-Website',
+    demo: 'https://github.com/Smkh4x/Lindex_Aletheia-Website',
+    img: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&q=80',
+  },
+  {
+    category: 'Web',
+    title: 'Cin PleinAir',
+    desc: 'An outdoor cinema experience website with elegant event scheduling, film listings, and a stunning visual design that brings the magic of open-air movies to the web.',
+    tags: ['CSS', 'JavaScript', 'HTML'],
+    github: 'https://github.com/Smkh4x/Cin_PleinAir-Website',
+    demo: 'https://github.com/Smkh4x/Cin_PleinAir-Website',
+    img: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&q=80',
+  },
+  {
+    category: 'Web',
+    title: 'AgriTech Startup',
+    desc: 'A modern AgriTech startup landing page connecting farmers with smart agricultural technology — clean UI, product showcase, and call-to-action flows.',
+    tags: ['JavaScript', 'HTML', 'CSS'],
+    github: 'https://github.com/Smkh4x/AgriTech-startup',
+    demo: 'https://github.com/Smkh4x/AgriTech-startup',
+    img: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&q=80',
+  },
+  // ── React Native (continued) ──────────────────────────────────────────
+  {
+    category: 'React Native',
+    title: 'Snack Diali',
+    desc: 'A Moroccan street food discovery app — explore local snacks, find nearby vendors, and rate your favorite traditional bites. Built with React Native & TypeScript.',
+    tags: ['React Native', 'TypeScript', 'Expo'],
+    github: 'https://github.com/Smkh4x/snack-Diali_MobileApp',
+    demo: 'https://github.com/Smkh4x/snack-Diali_MobileApp',
+    img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80',
+  },
+  {
+    category: 'React Native',
+    title: 'Sport Discovery',
+    desc: 'A mobile app helping youth discover 6 sports disciplines — football, basketball, tennis, swimming, athletics & cycling — with photo galleries, rules, and a favorites system.',
+    tags: ['React Native', 'JavaScript', 'Expo'],
+    github: 'https://github.com/Smkh4x/Sport_Discovery-Mobile-app',
+    demo: 'https://github.com/Smkh4x/Sport_Discovery-Mobile-app',
+    img: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?w=800&q=80',
+  },
+  // ── Fullstack ─────────────────────────────────────────────────────────
+  {
+    category: 'Fullstack',
+    title: 'App Auth Fullstack',
+    desc: 'A complete full-stack authentication system with JWT-based login, registration, protected routes, and a polished React frontend backed by a Node.js API.',
+    tags: ['TypeScript', 'React', 'Node.js', 'JWT'],
+    github: 'https://github.com/Smkh4x/app-auth-fullstack',
+    demo: 'https://github.com/Smkh4x/app-auth-fullstack',
+    img: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80',
+  },
+  // ── SA-MP / Pawn ─────────────────────────────────────────────────────
+  {
+    category: 'SA-MP',
+    title: 'Squid Game SA-MP',
+    desc: 'A Squid Game–inspired multiplayer survival script for San Andreas Multiplayer (SA-MP) in PAWN — custom maps, countdown timers, and object management. ⭐ 6 stars.',
+    tags: ['Pawn', 'SA-MP', 'Multiplayer'],
+    github: 'https://github.com/Smkh4x/squid-game-project-SA-MP',
+    demo: 'https://github.com/Smkh4x/squid-game-project-SA-MP',
+    img: 'https://images.unsplash.com/photo-1636955816868-fcb881e57954?w=800&q=80',
   },
 ];
 
-const SKILLS = ['React / Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'AWS', 'Docker', 'Go', 'Tailwind CSS'];
+const SKILLS = ['React ', 'TypeScript', 'Node.js', 'PostgreSQL', 'AWS', 'Docker', 'Tailwind CSS'];
 const STATS = [{ v: '5+', l: 'Years experience' }, { v: '40+', l: 'Projects shipped' }, { v: '99%', l: 'Client satisfaction' }, { v: '3', l: 'OSS packages' }];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────
@@ -356,37 +455,96 @@ export default function App() {
               <h2 className="font-label-caps text-label-caps text-primary uppercase section-label">Featured Work</h2>
             </Reveal>
 
-            {/* Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
-              {PROJECTS.map((p, i) => (
-                <Reveal key={p.title} delay={i * 0.1}>
-                  <article className="project-card bg-surface border border-outline-variant/40 overflow-hidden transition-all duration-500 hover:border-outline hover:shadow-md flex flex-col">
-                    <div className="aspect-video overflow-hidden border-b border-outline-variant/30 relative bg-surface-container">
-                      <img className="project-image w-full h-full object-cover"
-                        src={p.img} alt={p.title} loading="lazy" />
-                    </div>
-                    <div className="p-stack-lg flex flex-col flex-1">
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-2 mb-stack-sm">
-                        {p.tags.map(t => (
-                          <span key={t} className="font-label-caps text-label-caps px-2 py-1 border border-outline-variant text-on-surface-variant">{t}</span>
-                        ))}
-                      </div>
-                      <h3 className="font-headline-lg text-headline-lg text-on-surface mb-2">{p.title}</h3>
-                      <p className="font-body-md text-body-md text-on-surface-variant mb-stack-lg flex-1">{p.desc}</p>
-                      <div className="flex items-center gap-stack-lg pt-stack-sm border-t border-outline-variant/20">
-                        <a href={p.github} className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1">
-                          <span className="material-symbols-outlined" style={{ fontSize: 15 }}>code</span> GitHub
-                        </a>
-                        <a href={p.demo} className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1">
-                          <span className="material-symbols-outlined" style={{ fontSize: 15 }}>open_in_new</span> Live Demo
-                        </a>
-                      </div>
-                    </div>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
+            {/* Category groups */}
+            {[
+              { key: 'React Native', icon: '📱', color: '#0050cb' },
+              { key: 'Web', icon: '🌐', color: '#3a7d44' },
+              { key: 'Fullstack',    icon: '⚙️', color: '#6b3fa0' },
+              { key: 'SA-MP',        icon: '🎮', color: '#a33200' },
+            ].map(({ key, icon, color }) => {
+              const grouped = PROJECTS.filter(p => p.category === key);
+              if (!grouped.length) return null;
+              return (
+                <div key={key} className="mb-16">
+                  {/* Category header */}
+                  <Reveal className="flex items-center gap-3 mb-8">
+                    <span style={{ fontSize: 18 }}>{icon}</span>
+                    <span
+                      className="font-label-caps text-label-caps uppercase tracking-widest"
+                      style={{ color, fontSize: 11 }}
+                    >
+                      {key}
+                    </span>
+                    <div className="flex-1 h-px bg-outline-variant/30" />
+                    <span
+                      className="font-label-caps text-label-caps px-2 py-0.5 rounded-sm text-on-primary"
+                      style={{ background: color, fontSize: 9 }}
+                    >
+                      {grouped.length} project{grouped.length > 1 ? 's' : ''}
+                    </span>
+                  </Reveal>
+
+                  {/* Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-stack-lg">
+                    {grouped.map((p, i) => (
+                      <Reveal key={p.title} delay={i * 0.08}>
+                        <article className="project-card bg-surface border border-outline-variant/40 overflow-hidden transition-all duration-500 hover:border-outline hover:shadow-md flex flex-col h-full">
+                          <div className="aspect-video overflow-hidden border-b border-outline-variant/30 relative bg-surface-container">
+                            <img
+                              className="project-image w-full h-full object-cover"
+                              src={p.img}
+                              alt={p.title}
+                              loading="lazy"
+                            />
+                            {/* Category pill overlay */}
+                            <span
+                              className="absolute top-3 left-3 font-label-caps text-label-caps text-on-primary px-2 py-0.5 rounded-sm shadow"
+                              style={{ background: color, fontSize: 9 }}
+                            >
+                              {p.category}
+                            </span>
+                          </div>
+                          <div className="p-stack-lg flex flex-col flex-1">
+                            {/* Tags */}
+                            <div className="flex flex-wrap gap-2 mb-stack-sm">
+                              {p.tags.map(t => (
+                                <span
+                                  key={t}
+                                  className="font-label-caps text-label-caps px-2 py-1 border border-outline-variant text-on-surface-variant"
+                                  style={{ fontSize: 9 }}
+                                >
+                                  {t}
+                                </span>
+                              ))}
+                            </div>
+                            <h3 className="font-headline-lg text-headline-lg text-on-surface mb-2">{p.title}</h3>
+                            <p className="font-body-md text-body-md text-on-surface-variant mb-stack-lg flex-1">{p.desc}</p>
+                            <div className="flex items-center gap-stack-lg pt-stack-sm border-t border-outline-variant/20">
+                              <a
+                                href={p.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1"
+                              >
+                                <span className="material-symbols-outlined" style={{ fontSize: 15 }}>code</span> GitHub
+                              </a>
+                              <a
+                                href={p.demo}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1"
+                              >
+                                <span className="material-symbols-outlined" style={{ fontSize: 15 }}>open_in_new</span> View
+                              </a>
+                            </div>
+                          </div>
+                        </article>
+                      </Reveal>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </section>
 
           {/* ══ ABOUT ═════════════════════════════════════════════ */}
