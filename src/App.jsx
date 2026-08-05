@@ -459,8 +459,8 @@ export default function App() {
             {[
               { key: 'React Native', icon: '📱', color: '#0050cb' },
               { key: 'Web', icon: '🌐', color: '#3a7d44' },
-              { key: 'Fullstack',    icon: '⚙️', color: '#6b3fa0' },
-              { key: 'SA-MP',        icon: '🎮', color: '#a33200' },
+              { key: 'Fullstack', icon: '⚙️', color: '#6b3fa0' },
+              { key: 'SA-MP', icon: '🎮', color: '#a33200' },
             ].map(({ key, icon, color }) => {
               const grouped = PROJECTS.filter(p => p.category === key);
               if (!grouped.length) return null;
