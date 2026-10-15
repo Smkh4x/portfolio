@@ -53,15 +53,15 @@ export default function App() {
       {/* Interactive Pixel Trail Background (React Bits) */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <PixelTrail
-          gridSize={48}
-          trailSize={0.08}
-          maxAge={350}
-          interpolate={5}
+          gridSize={90}
+          trailSize={0.055}
+          maxAge={300}
+          interpolate={6}
           color="#ffffff"
           trailColor="#383838"
-          gooeyFilter={{ strength: 1.5 }}
-          glow={0.25}
-          shine={0.35}
+          gooeyFilter={{ strength: 1.2 }}
+          glow={0.2}
+          shine={0.3}
         />
       </div>
 
