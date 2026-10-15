@@ -38,6 +38,7 @@ uniform vec4 uRipples[RIPPLES];
 uniform float uIntro;
 uniform float uLight;
 uniform float uReady;
+uniform float uDissolve;
 out vec4 fragColor;
 
 float hash(vec2 p) {
@@ -103,7 +104,20 @@ void main() {
     push += normalize(center - ripple.xy + 0.001) * strength * uCell.y * 1.5;
   }
 
-  vec4 base = scene(center - push);
+  // Pixel dissolve and attraction towards mouse cursor
+  vec2 samplePos = center - push;
+  if (uDissolve > 0.0) {
+    float rnd = hash(cell * 41.17 + 19.3);
+    float rnd2 = hash(cell * 73.51 + 7.7);
+    vec2 toPointer = uPointer - center;
+    float dist = length(toPointer);
+    vec2 pullDir = dist > 0.001 ? toPointer / dist : vec2(0.0);
+    float pull = pow(uDissolve, 1.35) * min(dist, max(uSize.x, uSize.y) * 0.85) * (0.5 + 0.8 * rnd);
+    vec2 jitter = vec2(cos(rnd2 * 6.2831), sin(rnd2 * 6.2831)) * uDissolve * uCell.y * 12.0;
+    samplePos += (pull * pullDir + jitter);
+  }
+
+  vec4 base = scene(samplePos);
   float content = step(0.02, base.a);
   float gray = clamp(dot(base.rgb, vec3(0.3, 0.6, 0.1)), 0.0, 1.0);
   float index = content > 0.0 ? max(1.0, floor(gray * (uGlyphCount - 1.0) + 0.5)) : 0.0;
@@ -116,15 +130,26 @@ void main() {
   float decoding = step(hash(cell * 0.37 + 2.1), uIntro);
   if (content > 0.0 && decoding > 0.0) index = randomGlyph;
 
+  // Progressive pixel dropout like PixelTrail decay
+  if (uDissolve > 0.0) {
+    float rndDrop = hash(cell * 29.31 + 83.1);
+    if (rndDrop < uDissolve * 1.25) {
+      content = 0.0;
+    }
+  }
+
   float mask = texture(uGlyphs, vec2((index + local.x) / uGlyphCount, local.y)).a;
   float glyphAlpha = mask * max(content * (1.0 - decoding * 0.35), ring * 0.75);
 
   float spread = length((pixel - uSize * 0.5) / (uSize * 0.5)) * 0.7071;
   vec3 tint = mix(mix(uColors[0], uColors[1], smoothstep(0.0, 0.5, spread)), uColors[2], smoothstep(0.5, 1.0, spread));
-  float blockAlpha = base.a * uBlocks * (1.0 - uIntro);
+
+  // Turn into solid micro-pixel blocks as it dissolves, matching PixelTrail
+  float blockStrength = mix(uBlocks, 1.0, clamp(uDissolve * 2.2, 0.0, 1.0));
+  float blockAlpha = base.a * blockStrength * (1.0 - uIntro);
   vec3 under = base.rgb * blockAlpha;
-  vec3 color = mix(under, abs(tint - under), glyphAlpha);
-  float alpha = max(blockAlpha, glyphAlpha) * uReady;
+  vec3 color = mix(under, abs(tint - under), glyphAlpha * max(0.0, 1.0 - uDissolve * 1.6));
+  float alpha = max(blockAlpha, glyphAlpha) * uReady * clamp(1.0 - uDissolve * uDissolve, 0.0, 1.0);
   color = clamp(hueRotate(color, uHue), 0.0, 1.0) * uReady;
   if (uLight > 0.5) color = vec3(alpha) - color;
   fragColor = vec4(color, alpha);
@@ -210,12 +235,14 @@ export default function ASCIIText({
   idle = true,
   interactive = true,
   theme = 'dark',
+  dissolve = 0,
   className = '',
   style
 }) {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const buildRef = useRef(null);
+  const wakeRef = useRef(null);
   const [fallback, setFallback] = useState(false);
   const glyphs = Array.from(charset).length > 1 ? charset : CHARSET;
   const palette = (colors?.length ? colors : ['#ffffff']).slice(0, 3);
@@ -233,11 +260,16 @@ export default function ASCIIText({
     intro,
     idle,
     interactive,
+    dissolve: clamp(dissolve, 0, 1),
     light: theme === 'light',
     colors: [palette[0], palette[1] ?? palette[0], palette[2] ?? palette[1] ?? palette[0]]
   };
   const settingsRef = useRef(settings);
   settingsRef.current = settings;
+
+  useEffect(() => {
+    wakeRef.current?.();
+  }, [dissolve]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -298,7 +330,8 @@ export default function ASCIIText({
           'uRipples',
           'uIntro',
           'uLight',
-          'uReady'
+          'uReady',
+          'uDissolve'
         ]) {
           uniforms[name] = gl.getUniformLocation(program, name);
         }
@@ -444,6 +477,7 @@ export default function ASCIIText({
       gl.uniform1f(uniforms.uIntro, state.intro);
       gl.uniform1f(uniforms.uLight, s.light ? 1 : 0);
       gl.uniform1f(uniforms.uReady, state.ready ? 1 : 0);
+      gl.uniform1f(uniforms.uDissolve, s.dissolve);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
 
       if (state.visible) raf = requestAnimationFrame(frame);
@@ -454,6 +488,7 @@ export default function ASCIIText({
       last = performance.now();
       raf = requestAnimationFrame(frame);
     };
+    wakeRef.current = wake;
 
     buildRef.current = (value, family, weight, color, characters) => {
       build(value, family, weight, color, characters, true);
@@ -500,6 +535,7 @@ export default function ASCIIText({
       alive = false;
       cancelAnimationFrame(raf);
       buildRef.current = null;
+      wakeRef.current = null;
       resizeObserver.disconnect();
       visibility.disconnect();
       container.removeEventListener('pointermove', onMove);

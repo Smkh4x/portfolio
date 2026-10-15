@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SeoHead from './components/SeoHead';
 import ContactForm from './components/ContactForm';
 import PixelTrail from './components/PixelTrail';
@@ -36,20 +36,44 @@ const PROJECTS = [
 export default function App() {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [introDismissed, setIntroDismissed] = useState(false);
+  const [dissolveProgress, setDissolveProgress] = useState(0);
+  const isDismissingRef = useRef(false);
+
+  const triggerDismiss = () => {
+    if (isDismissingRef.current || introDismissed) return;
+    isDismissingRef.current = true;
+
+    const startTime = performance.now();
+    const duration = 650; // 650ms smooth dissolve into mouse pixel trail
+
+    const step = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / duration);
+      setDissolveProgress(progress);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        setIntroDismissed(true);
+      }
+    };
+
+    requestAnimationFrame(step);
+  };
 
   // Dismiss intro on scroll (wheel, touch, or keys)
   useEffect(() => {
-    if (introDismissed) return;
+    if (introDismissed || isDismissingRef.current) return;
 
     const onWheel = (e) => {
-      if (Math.abs(e.deltaY) > 8 || Math.abs(e.deltaX) > 8) {
-        setIntroDismissed(true);
+      if (Math.abs(e.deltaY) > 6 || Math.abs(e.deltaX) > 6) {
+        triggerDismiss();
       }
     };
 
     const onKeyDown = (e) => {
       if (['ArrowDown', 'Space', 'Enter', 'PageDown'].includes(e.code)) {
-        setIntroDismissed(true);
+        triggerDismiss();
       }
     };
 
@@ -58,8 +82,8 @@ export default function App() {
       if (e.touches?.[0]) startY = e.touches[0].clientY;
     };
     const onTouchMove = (e) => {
-      if (e.touches?.[0] && Math.abs(e.touches[0].clientY - startY) > 15) {
-        setIntroDismissed(true);
+      if (e.touches?.[0] && Math.abs(e.touches[0].clientY - startY) > 12) {
+        triggerDismiss();
       }
     };
 
@@ -100,15 +124,12 @@ export default function App() {
             initial={{ opacity: 1 }}
             exit={{
               opacity: 0,
-              scale: 1.08,
-              filter: 'blur(8px)',
-              transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] }
+              transition: { duration: 0.35, ease: 'easeOut' }
             }}
-            onClick={() => setIntroDismissed(true)}
-            className="fixed inset-0 z-40 bg-[#1a1a1a] flex flex-col items-center justify-center cursor-pointer select-none overflow-hidden"
-            title="Click or scroll to enter"
+            onClick={triggerDismiss}
+            className="fixed inset-0 z-40 bg-[#1a1a1a] flex items-center justify-center cursor-pointer select-none overflow-hidden"
           >
-            <div className="relative w-full h-[340px] sm:h-[440px] max-w-2xl px-4 flex items-center justify-center">
+            <div className="relative w-full h-[360px] sm:h-[460px] max-w-2xl px-4 flex items-center justify-center">
               <ASCIIText
                 text="Hey!"
                 asciiFontSize={8}
@@ -125,19 +146,9 @@ export default function App() {
                 clickRipple
                 idle
                 interactive
+                dissolve={dissolveProgress}
               />
             </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 0.65, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.5 }}
-              className="mt-4 flex items-center gap-2 text-xs uppercase tracking-widest text-white/50 font-mono"
-            >
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-              <span>Click or scroll to enter</span>
-              <span className="text-white/30">↓</span>
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
