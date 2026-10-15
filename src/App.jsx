@@ -116,7 +116,7 @@ export default function App() {
         path="/"
       />
 
-      {/* ─── Interactive ASCII "Hey!" Entrance Gate ────────────── */}
+      {/* ─── Interactive ASCII "Hey!" Entrance Gate (Full Screen) ────────────── */}
       <AnimatePresence>
         {!introDismissed && (
           <motion.div
@@ -127,15 +127,15 @@ export default function App() {
               transition: { duration: 0.35, ease: 'easeOut' }
             }}
             onClick={triggerDismiss}
-            className="fixed inset-0 z-40 bg-[#1a1a1a] flex items-center justify-center cursor-pointer select-none overflow-hidden"
+            className="fixed inset-0 z-40 bg-[#1a1a1a] cursor-pointer select-none overflow-hidden"
           >
-            <div className="relative w-full h-[360px] sm:h-[460px] max-w-2xl px-4 flex items-center justify-center">
+            <div className="absolute inset-0 w-full h-full">
               <ASCIIText
                 text="Hey!"
                 asciiFontSize={8}
                 colors={['#ffffff', '#e4e4e7', '#71717a']}
                 textColor="#ffffff"
-                textScale={1.1}
+                textScale={0.85}
                 blocks={0.9}
                 waves={1}
                 waveSpeed={1}

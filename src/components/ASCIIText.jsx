@@ -104,7 +104,7 @@ void main() {
     push += normalize(center - ripple.xy + 0.001) * strength * uCell.y * 1.5;
   }
 
-  // Pixel dissolve and attraction towards mouse cursor
+  // Full-screen pixel dissolve and attraction towards mouse cursor
   vec2 samplePos = center - push;
   if (uDissolve > 0.0) {
     float rnd = hash(cell * 41.17 + 19.3);
@@ -112,9 +112,12 @@ void main() {
     vec2 toPointer = uPointer - center;
     float dist = length(toPointer);
     vec2 pullDir = dist > 0.001 ? toPointer / dist : vec2(0.0);
-    float pull = pow(uDissolve, 1.35) * min(dist, max(uSize.x, uSize.y) * 0.85) * (0.5 + 0.8 * rnd);
-    vec2 jitter = vec2(cos(rnd2 * 6.2831), sin(rnd2 * 6.2831)) * uDissolve * uCell.y * 12.0;
-    samplePos += (pull * pullDir + jitter);
+    // Dynamic pull towards mouse across full screen
+    float pull = pow(uDissolve, 1.25) * dist * (0.5 + 0.8 * rnd);
+    // Full-screen explosive particle scatter
+    vec2 scatterDir = vec2(cos(rnd * 6.2831), sin(rnd * 6.2831));
+    vec2 scatter = scatterDir * uDissolve * max(uSize.x, uSize.y) * 0.22 * (0.3 + 0.7 * rnd2);
+    samplePos += (pull * pullDir + scatter);
   }
 
   vec4 base = scene(samplePos);
@@ -130,10 +133,10 @@ void main() {
   float decoding = step(hash(cell * 0.37 + 2.1), uIntro);
   if (content > 0.0 && decoding > 0.0) index = randomGlyph;
 
-  // Progressive pixel dropout like PixelTrail decay
+  // Progressive micro-pixel dropout like PixelTrail decay
   if (uDissolve > 0.0) {
     float rndDrop = hash(cell * 29.31 + 83.1);
-    if (rndDrop < uDissolve * 1.25) {
+    if (rndDrop < uDissolve * 1.2) {
       content = 0.0;
     }
   }
@@ -149,7 +152,7 @@ void main() {
   float blockAlpha = base.a * blockStrength * (1.0 - uIntro);
   vec3 under = base.rgb * blockAlpha;
   vec3 color = mix(under, abs(tint - under), glyphAlpha * max(0.0, 1.0 - uDissolve * 1.6));
-  float alpha = max(blockAlpha, glyphAlpha) * uReady * clamp(1.0 - uDissolve * uDissolve, 0.0, 1.0);
+  float alpha = max(blockAlpha, glyphAlpha) * uReady * clamp(1.0 - pow(uDissolve, 1.8), 0.0, 1.0);
   color = clamp(hueRotate(color, uHue), 0.0, 1.0) * uReady;
   if (uLight > 0.5) color = vec3(alpha) - color;
   fragColor = vec4(color, alpha);
