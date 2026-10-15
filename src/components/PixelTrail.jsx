@@ -383,18 +383,36 @@ export default function PixelTrail({
         const dx = last.x - x;
         const dy = last.y - y;
         const dd = dx * dx + dy * dy;
-        const force = Math.max(0.3, Math.min(dd * 10000, 1));
+        const dist = Math.sqrt(dd);
+        const force = Math.max(0.3, Math.min(dist * 60, 1));
         state.force = force;
-        if (s.interpolate) {
-          const lines = Math.ceil(dd / Math.pow((s.trailSize * 0.5) / s.interpolate, 2));
+        if (s.interpolate && dist > 0.001) {
+          // Linear step distance along the trail
+          const stepDist = (s.trailSize * 0.5) / Math.max(1, s.interpolate);
+          const rawLines = Math.ceil(dist / Math.max(0.005, stepDist));
+          // Hard clamp to prevent explosion on quick mouse moves (max 10 points per event)
+          const lines = Math.min(10, rawLines);
           if (lines > 1) {
             for (let i = 1; i < lines; i++) {
-              points.push({ x: last.x - (dx / lines) * i, y: last.y - (dy / lines) * i, age: 0, force, vx, vy });
+              points.push({
+                x: last.x - (dx / lines) * i,
+                y: last.y - (dy / lines) * i,
+                age: 0,
+                force,
+                vx,
+                vy
+              });
             }
           }
         }
       }
       points.push({ x, y, age: 0, force: state.force, vx, vy });
+
+      // Cap maximum active points in the buffer to guarantee 60-120fps even during rapid mouse movements
+      const MAX_POINTS = 65;
+      if (points.length > MAX_POINTS) {
+        points.splice(0, points.length - MAX_POINTS);
+      }
     };
 
     const drawTouch = point => {
@@ -408,8 +426,12 @@ export default function PixelTrail({
         intensity = s.ease(1 - (point.age - s.maxAge * 0.3) / (s.maxAge * 0.7));
       }
       intensity *= point.force;
-      ctx.globalCompositeOperation = 'screen';
+      if (intensity <= 0.01) return;
+
       const radius = TRAIL_SIZE * s.trailSize * intensity;
+      if (radius <= 0.2) return;
+
+      ctx.globalCompositeOperation = 'screen';
       const gradient = ctx.createRadialGradient(x, y, Math.max(0, radius * 0.25), x, y, Math.max(0, radius));
       gradient.addColorStop(0, 'rgba(255, 255, 255, 0.2)');
       gradient.addColorStop(1, 'rgba(0, 0, 0, 0.0)');
@@ -417,7 +439,7 @@ export default function PixelTrail({
       ctx.fillStyle = gradient;
       ctx.arc(x, y, Math.max(0, radius), 0, Math.PI * 2);
       ctx.fill();
-      if (!s.trailColor || radius <= 0) return;
+      if (!s.trailColor) return;
       const scale = AGE_SIZE / TRAIL_SIZE;
       const fresh = Math.round(255 * Math.min(Math.max(1 - point.age / s.maxAge, 0), 1));
       const glaze = ageCtx.createRadialGradient(x * scale, y * scale, 0, x * scale, y * scale, radius * scale);
@@ -441,10 +463,17 @@ export default function PixelTrail({
         ageCtx.fillStyle = 'black';
         ageCtx.fillRect(0, 0, AGE_SIZE, AGE_SIZE);
       }
-      state.points.forEach((point, i) => {
+      let writeIdx = 0;
+      const pts = state.points;
+      const len = pts.length;
+      for (let i = 0; i < len; i++) {
+        const point = pts[i];
         point.age += delta * 1000;
-        if (point.age > s.maxAge) state.points.splice(i, 1);
-      });
+        if (point.age <= s.maxAge) {
+          pts[writeIdx++] = point;
+        }
+      }
+      pts.length = writeIdx;
       if (!state.points.length) state.force = 0;
       if (s.flow > 0 || s.gravity !== 0) {
         const drag = Math.exp(-3 * delta);
@@ -455,7 +484,9 @@ export default function PixelTrail({
           point.y += point.vy * delta;
         }
       }
-      state.points.forEach(drawTouch);
+      for (let i = 0; i < state.points.length; i++) {
+        drawTouch(state.points[i]);
+      }
     };
 
     const burst = (x, y) => {
@@ -599,10 +630,17 @@ export default function PixelTrail({
       };
     };
 
+    let lastMoveTime = 0;
     const onMove = event => {
+      const now = performance.now();
+      // Throttle high polling rate mice (e.g. 500Hz/1000Hz) to max ~125Hz (8ms)
+      if (now - lastMoveTime < 8) {
+        return;
+      }
+      lastMoveTime = now;
+
       const { x, y, inside } = toUv(event);
       const pointer = state.pointer;
-      const now = performance.now();
       if (inside) {
         const s = settingsRef.current;
         const elapsed = Math.max(0.008, (now - pointer.at) / 1000);
