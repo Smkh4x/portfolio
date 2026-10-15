@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SeoHead from './components/SeoHead';
 import ContactForm from './components/ContactForm';
+import PixelTrail from './components/PixelTrail';
 
 // ─── Projects Data (Curated 3 Featured Projects) ───────────────────────────
 const PROJECTS = [
@@ -42,12 +43,27 @@ export default function App() {
   };
 
   return (
-    <div className="home-page min-h-screen flex flex-col bg-[#1a1a1a] text-white selection:bg-[#031e58] selection:text-white">
+    <div className="home-page min-h-screen flex flex-col bg-[#1a1a1a] text-white selection:bg-[#031e58] selection:text-white relative">
       <SeoHead
         title="Youssef Almona | Full Stack Developer"
         description="Full Stack and Mobile Developer skilled in React Native, React, and Node.js with hands-on experience building cross-platform applications."
         path="/"
       />
+
+      {/* Interactive Pixel Trail Background (React Bits) */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <PixelTrail
+          gridSize={48}
+          trailSize={0.08}
+          maxAge={350}
+          interpolate={5}
+          color="#ffffff"
+          trailColor="#383838"
+          gooeyFilter={{ strength: 1.5 }}
+          glow={0.25}
+          shine={0.35}
+        />
+      </div>
 
       {/* Spacer for fixed header */}
       <div aria-hidden="true" className="h-14"></div>
@@ -111,7 +127,7 @@ export default function App() {
       </header>
 
       {/* ─── Main Content Column (max-w-2xl px-6) ───────────── */}
-      <main className="flex-1 py-8 sm:py-10 md:py-12">
+      <main className="flex-1 py-8 sm:py-10 md:py-12 relative z-10">
         <section className="w-full mx-auto px-6 pb-0 pt-2 md:pt-4 max-w-2xl">
           {/* ── Intro (No profile image, text-only matching tahaboussaden.me) ── */}
           <div className="mb-6">
