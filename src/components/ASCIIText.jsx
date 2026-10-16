@@ -456,10 +456,25 @@ export default function ASCIIText({
       gl.bindTexture(gl.TEXTURE_2D, glyphTexture);
       gl.uniform1i(uniforms.uGlyphs, 1);
       gl.uniform2f(uniforms.uSize, width, height);
-      gl.uniform2f(uniforms.uCell, s.cellSize * 0.62 * dpr, s.cellSize * dpr);
+
+      // Responsive plane height calculation:
+      // The ray-marching camera projects horizontally proportional to (width / height).
+      // On mobile portrait screens, viewportAspect is narrow (~0.45 - 0.58).
+      // We clamp plane height so the text width (planeHeight * textAspect) takes at most 78% of the screen width.
+      const viewportAspect = width / Math.max(1, height);
+      const textAspect = Math.max(0.5, state.textAspect || 2.0);
+      const maxPlaneHeightForWidth = (viewportAspect * 0.78) / (2.0 * textAspect);
+      const basePlaneHeight = 0.5 * s.textScale;
+      const responsivePlaneHeight = Math.min(basePlaneHeight, maxPlaneHeightForWidth);
+
+      // Dynamically scale cell size so ASCII resolution stays proportional and crisp on mobile
+      const scaleRatio = Math.min(1.0, responsivePlaneHeight / Math.max(0.001, basePlaneHeight));
+      const responsiveCellSize = Math.max(2.5, s.cellSize * Math.max(0.65, Math.pow(scaleRatio, 0.4)));
+
+      gl.uniform2f(uniforms.uCell, responsiveCellSize * 0.62 * dpr, responsiveCellSize * dpr);
       gl.uniform1f(uniforms.uGlyphCount, state.glyphCount);
       gl.uniform1f(uniforms.uTextAspect, state.textAspect);
-      gl.uniform1f(uniforms.uPlaneHeight, 0.5 * s.textScale);
+      gl.uniform1f(uniforms.uPlaneHeight, responsivePlaneHeight);
       gl.uniform2f(uniforms.uTilt, state.tiltX, state.tiltY);
       gl.uniform1f(uniforms.uTime, state.time);
       gl.uniform1f(uniforms.uWaves, s.waves);

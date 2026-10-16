@@ -140,6 +140,7 @@ export default function App() {
               transition: { duration: 0.35, ease: 'easeOut' }
             }}
             onClick={triggerDismiss}
+            onTouchStart={triggerDismiss}
             className="fixed inset-0 z-40 bg-[#1a1a1a] cursor-pointer select-none overflow-hidden"
           >
             <div className="absolute inset-0 w-full h-full">
@@ -434,6 +435,7 @@ export default function App() {
                   <p className="text-xs text-white/60 mt-1 leading-relaxed">
                     {project.desc}
                   </p>
+
 
                   <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-2.5 sm:gap-4 mt-2.5">
                     <div className="flex flex-wrap gap-1.5">
