@@ -62,7 +62,7 @@ const ContactForm = () => {
                 required
                 autoComplete="name"
                 placeholder="Your name"
-                className="w-full bg-[#141414] border border-white/10 rounded-md px-3.5 py-2.5 text-[14px] text-white placeholder-white/30 focus:border-white/40 focus:outline-none transition-colors"
+                className="w-full bg-[#141414] border border-white/10 rounded-md px-3.5 py-2.5 text-[16px] sm:text-[14px] text-white placeholder-white/30 focus:border-white/40 focus:outline-none transition-colors"
               />
             </div>
             <div>
@@ -75,8 +75,9 @@ const ContactForm = () => {
                 name="user_email"
                 required
                 autoComplete="email"
+                inputMode="email"
                 placeholder="your@email.com"
-                className="w-full bg-[#141414] border border-white/10 rounded-md px-3.5 py-2.5 text-[14px] text-white placeholder-white/30 focus:border-white/40 focus:outline-none transition-colors"
+                className="w-full bg-[#141414] border border-white/10 rounded-md px-3.5 py-2.5 text-[16px] sm:text-[14px] text-white placeholder-white/30 focus:border-white/40 focus:outline-none transition-colors"
               />
             </div>
           </div>
@@ -92,7 +93,7 @@ const ContactForm = () => {
               rows={4}
               autoComplete="off"
               placeholder="Tell me about your project, idea, or inquiry…"
-              className="w-full bg-[#141414] border border-white/10 rounded-md px-3.5 py-2.5 text-[14px] text-white placeholder-white/30 focus:border-white/40 focus:outline-none transition-colors resize-y min-h-[110px]"
+              className="w-full bg-[#141414] border border-white/10 rounded-md px-3.5 py-2.5 text-[16px] sm:text-[14px] text-white placeholder-white/30 focus:border-white/40 focus:outline-none transition-colors resize-y min-h-[110px]"
             />
           </div>
 
@@ -104,11 +105,11 @@ const ContactForm = () => {
             </div>
           )}
 
-          <div className="flex items-center justify-between pt-1">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-[#1a1a1a] font-medium text-[13px] rounded-md transition-all hover:bg-white/90 active:scale-[0.99] ${
+              className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 sm:py-2.5 bg-white text-[#1a1a1a] font-medium text-[14px] sm:text-[13px] rounded-md transition-all hover:bg-white/90 active:scale-[0.99] ${
                 isSubmitting ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
               }`}
             >
@@ -124,7 +125,7 @@ const ContactForm = () => {
                 </>
               )}
             </button>
-            <span className="text-[12px] text-white/40 hidden sm:inline">
+            <span className="text-[12px] text-white/40 text-center sm:text-left">
               Usually responds within 24h
             </span>
           </div>

@@ -1,11 +1,19 @@
 User-agent: *
 Allow: /
 
-# Disallow private or non-public routes if they appear in future releases.
+# Disallow legacy and private assets from search index
+Disallow: /assets/profile*
+Disallow: /*profile*.jpg
+Disallow: /*profile*.jpeg
+Disallow: /*profile*.png
 Disallow: /private/
 Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /api/
+
+User-agent: Googlebot-Image
+Disallow: /assets/profile*
+Disallow: /*profile*
 
 Sitemap: https://almona.online/sitemap.xml
 Host: almona.online

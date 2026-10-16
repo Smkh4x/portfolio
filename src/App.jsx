@@ -435,7 +435,7 @@ export default function App() {
                     {project.desc}
                   </p>
 
-                  <div className="flex items-center justify-between gap-4 mt-2">
+                  <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-2.5 sm:gap-4 mt-2.5">
                     <div className="flex flex-wrap gap-1.5">
                       {project.tags.map((t) => (
                         <span
@@ -447,7 +447,7 @@ export default function App() {
                       ))}
                     </div>
 
-                    <div className="flex items-center gap-3 text-xs flex-shrink-0">
+                    <div className="flex items-center gap-3 text-xs flex-shrink-0 pt-1 xs:pt-0">
                       <a
                         href={project.github}
                         target="_blank"
@@ -502,16 +502,16 @@ export default function App() {
             <div className="space-y-4">
               {/* CCFBS Simplon */}
               <div>
-                <div className="flex items-baseline justify-between gap-2">
-                  <span className="font-semibold text-[14px]">
+                <div className="flex flex-col xs:flex-row xs:items-baseline xs:justify-between gap-0.5 xs:gap-2">
+                  <span className="font-semibold text-[13px] sm:text-[14px]">
                     Full Stack & Mobile Development Training
                   </span>
                   <span className="text-xs text-white/50 whitespace-nowrap flex-shrink-0">
                     2026
                   </span>
                 </div>
-                <p className="text-[14px] text-white/70">CCFBS – Simplon Maghreb</p>
-                <p className="text-[14px] text-white/60 mt-1">
+                <p className="text-[13px] sm:text-[14px] text-white/70 mt-0.5">CCFBS – Simplon Maghreb</p>
+                <p className="text-xs sm:text-[13px] text-white/60 mt-1 leading-relaxed">
                   Intensive practical training focusing on full-stack web and cross-platform mobile development with modern frameworks, agile workflow, and industry best practices.
                 </p>
                 <div className="mt-4 h-px bg-white/10"></div>
@@ -519,16 +519,16 @@ export default function App() {
 
               {/* Self-Taught */}
               <div>
-                <div className="flex items-baseline justify-between gap-2">
-                  <span className="font-semibold text-[14px]">
+                <div className="flex flex-col xs:flex-row xs:items-baseline xs:justify-between gap-0.5 xs:gap-2">
+                  <span className="font-semibold text-[13px] sm:text-[14px]">
                     Self-Taught & Continuous Learning
                   </span>
                   <span className="text-xs text-white/50 whitespace-nowrap flex-shrink-0">
                     2022 – Present
                   </span>
                 </div>
-                <p className="text-[14px] text-white/70">Fkih Ben Salah, Morocco</p>
-                <p className="text-[14px] text-white/60 mt-1">
+                <p className="text-[13px] sm:text-[14px] text-white/70 mt-0.5">Fkih Ben Salah, Morocco</p>
+                <p className="text-xs sm:text-[13px] text-white/60 mt-1 leading-relaxed">
                   Independent learning and practical skill development in computer science, web and mobile development, UI/UX design, and modern AI tools.
                 </p>
               </div>
@@ -541,7 +541,7 @@ export default function App() {
               Technical Skills
             </h2>
 
-            <div className="space-y-3 text-[14px]">
+            <div className="space-y-3 text-[13px] sm:text-[14px] leading-relaxed">
               <div>
                 <span className="font-semibold text-white/90">Core Languages: </span>
                 <span className="text-white/60">

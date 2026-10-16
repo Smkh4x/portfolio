@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
 const baseUrl = 'https://almona.online';
-const defaultTitle = 'Youssef Al Mona | Full-Stack Developer Portfolio';
-const defaultDescription = 'Youssef Al Mona is a full-stack developer building modern web experiences with React, Node.js, and polished UI systems.';
+const defaultTitle = 'Youssef Almona | Full Stack & Mobile Developer';
+const defaultDescription = 'Youssef Almona is a Full Stack and Mobile Developer skilled in React Native, React, Node.js, and modern AI tooling.';
 const defaultImage = `${baseUrl}/android-chrome-512x512.png`;
 
 function setMetaTag(tagName, attributes, value) {
@@ -52,7 +52,7 @@ export default function SeoHead({ title = defaultTitle, description = defaultDes
   useEffect(() => {
     const normalizedPath = path.startsWith('/') ? path : `/${path}`;
     const canonicalUrl = `${baseUrl}${normalizedPath}`;
-    const pageTitle = title.includes('Youssef') ? title : `${title} | Youssef Al Mona`;
+    const pageTitle = title.includes('Youssef') ? title : `${title} | Youssef Almona`;
 
     document.title = pageTitle;
     document.documentElement.lang = 'en';
@@ -64,19 +64,19 @@ export default function SeoHead({ title = defaultTitle, description = defaultDes
     ensureLink('manifest', '/manifest.webmanifest');
 
     setMetaTag('meta', { name: 'description' }, description);
-    setMetaTag('meta', { name: 'author' }, 'Youssef Al Mona');
+    setMetaTag('meta', { name: 'author' }, 'Youssef Almona');
     setMetaTag('meta', { name: 'robots' }, 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1');
-    setMetaTag('meta', { name: 'theme-color' }, '#0050cb');
-    setMetaTag('meta', { name: 'color-scheme' }, 'light');
-    setMetaTag('meta', { name: 'keywords' }, 'Youssef Al Mona, full-stack developer, React developer, Node.js developer, portfolio, Morocco developer');
+    setMetaTag('meta', { name: 'theme-color' }, '#1a1a1a');
+    setMetaTag('meta', { name: 'color-scheme' }, 'dark');
+    setMetaTag('meta', { name: 'keywords' }, 'Youssef Almona, Almona, full stack developer, react native, react, node.js, portfolio, morocco developer');
 
     setMetaTag('meta', { property: 'og:title' }, pageTitle);
     setMetaTag('meta', { property: 'og:description' }, description);
     setMetaTag('meta', { property: 'og:type' }, 'website');
     setMetaTag('meta', { property: 'og:url' }, canonicalUrl);
-    setMetaTag('meta', { property: 'og:site_name' }, 'Youssef Al Mona');
+    setMetaTag('meta', { property: 'og:site_name' }, 'Youssef Almona');
     setMetaTag('meta', { property: 'og:image' }, image);
-    setMetaTag('meta', { property: 'og:image:alt' }, 'Youssef Al Mona portfolio preview');
+    setMetaTag('meta', { property: 'og:image:alt' }, 'Youssef Almona Portfolio');
     setMetaTag('meta', { property: 'og:locale' }, 'en_US');
 
     setMetaTag('meta', { name: 'twitter:card' }, 'summary_large_image');
@@ -84,7 +84,7 @@ export default function SeoHead({ title = defaultTitle, description = defaultDes
     setMetaTag('meta', { name: 'twitter:description' }, description);
     setMetaTag('meta', { name: 'twitter:url' }, canonicalUrl);
     setMetaTag('meta', { name: 'twitter:image' }, image);
-    setMetaTag('meta', { name: 'twitter:image:alt' }, 'Youssef Al Mona portfolio preview');
+    setMetaTag('meta', { name: 'twitter:image:alt' }, 'Youssef Almona Portfolio');
 
     ensureJsonLd({
       '@context': 'https://schema.org',
@@ -92,17 +92,17 @@ export default function SeoHead({ title = defaultTitle, description = defaultDes
         {
           '@type': 'Person',
           '@id': 'https://almona.online/#person',
-          name: 'Youssef Al Mona',
-          jobTitle: 'Full-Stack Developer',
+          name: 'Youssef Almona',
+          jobTitle: 'Full Stack & Mobile Developer',
           url: 'https://almona.online',
           sameAs: ['https://github.com/Smkh4x', 'https://www.linkedin.com/in/youssef-almona'],
           description: description,
-          knowsAbout: ['React', 'Node.js', 'TypeScript', 'Tailwind CSS', 'Full-stack development'],
+          knowsAbout: ['React Native', 'React', 'Node.js', 'TypeScript', 'Tailwind CSS', 'Full-stack development'],
         },
         {
           '@type': 'Organization',
           '@id': 'https://almona.online/#organization',
-          name: 'Youssef Al Mona',
+          name: 'Youssef Almona',
           url: 'https://almona.online',
           sameAs: ['https://github.com/Smkh4x', 'https://www.linkedin.com/in/youssef-almona'],
           logo: 'https://almona.online/android-chrome-512x512.png',
@@ -110,7 +110,7 @@ export default function SeoHead({ title = defaultTitle, description = defaultDes
         {
           '@type': 'WebSite',
           '@id': 'https://almona.online/#website',
-          name: 'Youssef Al Mona Portfolio',
+          name: 'Youssef Almona Portfolio',
           url: 'https://almona.online',
           publisher: { '@id': 'https://almona.online/#organization' },
           potentialAction: {
@@ -133,35 +133,44 @@ export default function SeoHead({ title = defaultTitle, description = defaultDes
           '@type': 'BreadcrumbList',
           itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://almona.online/' },
-            { '@type': 'ListItem', position: 2, name: 'Work', item: 'https://almona.online/#work' },
-            { '@type': 'ListItem', position: 3, name: 'Contact', item: 'https://almona.online/#contact' },
+            { '@type': 'ListItem', position: 2, name: 'Projects', item: 'https://almona.online/#projects' },
+            { '@type': 'ListItem', position: 3, name: 'Experience', item: 'https://almona.online/#experience' },
+            { '@type': 'ListItem', position: 4, name: 'Contact', item: 'https://almona.online/#contact' },
           ],
         },
         {
           '@type': 'CreativeWork',
           '@id': 'https://almona.online/#portfolio',
-          name: 'Youssef Al Mona Portfolio',
+          name: 'Youssef Almona Portfolio',
           creator: { '@id': 'https://almona.online/#person' },
           description,
           genre: 'Developer Portfolio',
-          about: ['React', 'Node.js', 'TypeScript', 'Tailwind CSS'],
+          about: ['React Native', 'React', 'Node.js', 'TypeScript', 'Tailwind CSS'],
           image: 'https://almona.online/android-chrome-512x512.png'
         },
         {
-          '@type': 'Project',
-          name: 'Omni Dashboard',
-          description: 'A real-time financial tracking platform with automated reporting and custom data hooks.',
-          url: 'https://almona.online/#work',
+          '@type': 'SoftwareApplication',
+          name: 'Meetiva',
+          applicationCategory: 'CommunicationApplication',
+          description: 'Interest-based video matching mobile application built with React Native and Expo.',
+          url: 'https://github.com/Smkh4x/Meetiva',
           creator: { '@id': 'https://almona.online/#person' },
-          keywords: ['React', 'TypeScript', 'Node.js'],
         },
         {
-          '@type': 'Project',
-          name: 'Apex Commerce',
-          description: 'High-performance headless e-commerce storefront with atomic design architecture.',
-          url: 'https://almona.online/#work',
+          '@type': 'SoftwareApplication',
+          name: 'Management Dashboard',
+          applicationCategory: 'BusinessApplication',
+          description: 'Modern administrative dashboard for resource management and real-time analytics.',
+          url: 'https://github.com/Smkh4x/Management-Dashboard',
           creator: { '@id': 'https://almona.online/#person' },
-          keywords: ['Next.js', 'PostgreSQL', 'Tailwind'],
+        },
+        {
+          '@type': 'SoftwareApplication',
+          name: 'Quiz Mind',
+          applicationCategory: 'EducationalApplication',
+          description: 'Interactive knowledge assessment platform built with React and modern UI.',
+          url: 'https://github.com/Smkh4x/Quiz-Mind',
+          creator: { '@id': 'https://almona.online/#person' },
         },
       ],
     });
