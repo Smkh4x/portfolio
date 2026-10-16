@@ -106,4 +106,14 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #3e3e3e;
   }
+
+  /* Hide scrollbar for mobile overflow navigation */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
 }

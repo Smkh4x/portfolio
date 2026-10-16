@@ -37,6 +37,7 @@ export default function App() {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [introDismissed, setIntroDismissed] = useState(false);
   const [dissolveProgress, setDissolveProgress] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isDismissingRef = useRef(false);
 
   const triggerDismiss = () => {
@@ -60,6 +61,18 @@ export default function App() {
 
     requestAnimationFrame(step);
   };
+
+  // Auto-dismiss Hey! intro after 2 seconds on mobile
+  useEffect(() => {
+    if (introDismissed || isDismissingRef.current) return;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    if (isMobile) {
+      const timer = setTimeout(() => {
+        triggerDismiss();
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [introDismissed]);
 
   // Dismiss intro on scroll (wheel, touch, or keys)
   useEffect(() => {
@@ -173,12 +186,12 @@ export default function App() {
 
       {/* ─── Fixed Header (matching tahaboussaden.me) ─────────── */}
       <header
-        className="fixed top-0 left-0 right-0 z-30 border-b border-white/10"
-        style={{ backgroundColor: 'var(--home-bg, #1a1a1a)' }}
+        className="fixed top-0 left-0 right-0 z-30 border-b border-white/10 backdrop-blur-md"
+        style={{ backgroundColor: 'rgba(26, 26, 26, 0.94)' }}
       >
-        <div className="max-w-2xl mx-auto px-6 py-2.5">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-5 sm:gap-6">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 py-2.5">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-4 sm:gap-6 min-w-0">
               <h1 className="text-sm font-semibold whitespace-nowrap flex-shrink-0">
                 <a
                   className="transition-colors underline text-white hover:opacity-80"
@@ -187,27 +200,29 @@ export default function App() {
                   Youssef Almona
                 </a>
               </h1>
-              <nav className="flex items-center gap-4 sm:gap-6">
+
+              {/* Desktop Navigation */}
+              <nav className="hidden sm:flex items-center gap-5 sm:gap-6 text-sm">
                 <a
-                  className="text-sm transition-colors text-gray-400 hover:text-white hover:underline"
+                  className="transition-colors text-gray-400 hover:text-white hover:underline whitespace-nowrap"
                   href="#projects"
                 >
                   Projects
                 </a>
                 <a
-                  className="text-sm transition-colors text-gray-400 hover:text-white hover:underline"
+                  className="transition-colors text-gray-400 hover:text-white hover:underline whitespace-nowrap"
                   href="#experience"
                 >
                   Experience
                 </a>
                 <a
-                  className="text-sm transition-colors text-gray-400 hover:text-white hover:underline"
+                  className="transition-colors text-gray-400 hover:text-white hover:underline whitespace-nowrap"
                   href="#skills"
                 >
                   Skills
                 </a>
                 <a
-                  className="text-sm transition-colors text-gray-400 hover:text-white hover:underline"
+                  className="transition-colors text-gray-400 hover:text-white hover:underline whitespace-nowrap"
                   href="#contact"
                 >
                   Contact
@@ -215,29 +230,114 @@ export default function App() {
               </nav>
             </div>
 
-            {/* Direct English CV Download */}
-            <a
-              href="/assets/cv.pdf"
-              download="Youssef_Almona_CV.pdf"
-              className="text-xs px-3 py-1 rounded-full transition-colors bg-white/10 hover:bg-white/20 text-white font-medium flex items-center gap-1.5"
-              title="Download CV"
-            >
-              <span className="material-symbols-outlined text-xs">download</span>
-              <span>CV</span>
-            </a>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {/* Direct English CV Download */}
+              <a
+                href="/assets/cv.pdf"
+                download="Youssef_Almona_CV.pdf"
+                className="text-xs px-2.5 sm:px-3 py-1 rounded-full transition-colors bg-white/10 hover:bg-white/20 text-white font-medium flex items-center gap-1.5"
+                title="Download CV"
+              >
+                <span className="material-symbols-outlined text-xs">download</span>
+                <span>CV</span>
+              </a>
+
+              {/* Mobile Menu Button */}
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                className="sm:hidden p-1.5 rounded-lg bg-white/10 hover:bg-white/20 active:scale-95 text-white flex items-center justify-center transition-all border border-white/10"
+              >
+                <span className="material-symbols-outlined text-[19px]">
+                  {mobileMenuOpen ? 'close' : 'menu'}
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
-      {/* ─── Main Content Column (max-w-2xl px-6) ───────────── */}
-      <main className="flex-1 py-8 sm:py-10 md:py-12 relative z-10">
-        <section className="w-full mx-auto px-6 pb-0 pt-2 md:pt-4 max-w-2xl">
+      {/* ─── Mobile Liquid Glass Menu ─── */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            {/* Click-away backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.18 }}
+              className="sm:hidden fixed inset-0 z-30 bg-black/60 backdrop-blur-sm"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+
+            {/* Liquid Glass Dropdown Menu */}
+            <motion.div
+              initial={{ opacity: 0, y: -10, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.96 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              className="sm:hidden fixed inset-x-3 top-14 z-40 p-3.5 rounded-2xl border border-white/20 overflow-hidden"
+              style={{
+                backgroundColor: 'rgba(28, 28, 30, 0.82)',
+                backdropFilter: 'blur(32px) saturate(190%)',
+                WebkitBackdropFilter: 'blur(32px) saturate(190%)',
+                boxShadow: '0 24px 50px -10px rgba(0, 0, 0, 0.8), inset 0 1px 0 0 rgba(255, 255, 255, 0.3), inset 0 0 20px 0 rgba(255, 255, 255, 0.03)'
+              }}
+            >
+              {/* Liquid specular gloss top bar */}
+              <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/60 to-transparent" />
+              <div className="absolute -top-10 -left-10 w-32 h-32 bg-white/[0.08] rounded-full blur-2xl pointer-events-none" />
+
+              <nav className="flex flex-col space-y-1 relative z-10">
+                {[
+                  { label: 'Projects', href: '#projects', icon: 'folder_open' },
+                  { label: 'Experience', href: '#experience', icon: 'school' },
+                  { label: 'Skills', href: '#skills', icon: 'terminal' },
+                  { label: 'Contact', href: '#contact', icon: 'send' },
+                ].map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[14px] font-medium text-white/85 hover:text-white hover:bg-white/10 active:bg-white/20 transition-all"
+                  >
+                    <span className="flex items-center gap-3">
+                      <span className="material-symbols-outlined text-[18px] text-white/60">{item.icon}</span>
+                      <span>{item.label}</span>
+                    </span>
+                    <span className="text-white/30 text-xs font-mono">↗</span>
+                  </a>
+                ))}
+
+                <div className="pt-2.5 mt-2 border-t border-white/10 flex items-center justify-between px-2 text-xs text-white/50">
+                  <span>Fkih Ben Salah, Morocco</span>
+                  <a
+                    href="/assets/cv.pdf"
+                    download="Youssef_Almona_CV.pdf"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-white hover:underline flex items-center gap-1 font-medium"
+                  >
+                    <span className="material-symbols-outlined text-[13px]">download</span>
+                    Download CV
+                  </a>
+                </div>
+              </nav>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* ─── Main Content Column (max-w-2xl px-4 sm:px-6) ───────────── */}
+      <main className="flex-1 py-6 sm:py-10 md:py-12 relative z-10">
+        <section className="w-full mx-auto px-4 sm:px-6 pb-0 pt-2 md:pt-4 max-w-2xl">
           {/* ── Intro (No profile image, text-only matching tahaboussaden.me) ── */}
           <div className="mb-6">
-            <h1 className="text-base font-semibold text-white tracking-tight">
+            <h1 className="text-base sm:text-lg font-semibold text-white tracking-tight">
               Youssef Almona
             </h1>
-            <p className="text-[13px] text-white/60">
+            <p className="text-[13px] sm:text-[14px] text-white/60">
               Full Stack Developer · Mobile & Web
             </p>
             <p className="text-[12px] text-white/40">
@@ -245,7 +345,7 @@ export default function App() {
             </p>
           </div>
 
-          <div className="space-y-3 text-[14px] leading-6 text-white/90">
+          <div className="space-y-3 text-[13px] sm:text-[14px] leading-6 text-white/90">
             <p>
               I'm a{' '}
               <a
