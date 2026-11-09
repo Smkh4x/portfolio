@@ -52,10 +52,6 @@ export default function MeetivaFloatingButton({ onNavigate }) {
       >
         <span className="flex items-center gap-2.5 px-3.5 py-1">
           {/* Glowing pulse indicator dot */}
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4ADE80] opacity-80" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#22C55E]" />
-          </span>
 
           {/* Project Name */}
           <span className="font-extrabold text-[14px] tracking-tight text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
