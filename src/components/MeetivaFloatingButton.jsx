@@ -14,46 +14,57 @@ export default function MeetivaFloatingButton({ onNavigate }) {
 
   return (
     <aside
-      aria-label="Meetiva App Waitlist"
-      className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-40 group select-none"
+      aria-label="Meetiva App"
+      className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-40 select-none group"
     >
-      {/* Soft atmospheric radial blue glow underneath */}
+      {/* Ambient Pulsing Aura that blends with dark portfolio */}
       <div
-        className="absolute -inset-3 rounded-full bg-[#1E88E5]/45 blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        className="absolute -inset-3 rounded-full bg-gradient-to-r from-[#0080FF]/50 via-[#38BDF8]/40 to-[#22D3EE]/30 blur-2xl opacity-75 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500 pointer-events-none"
         aria-hidden="true"
       />
 
       <SpecularButton
-        size="lg"
+        size="md"
         radius={9999}
         tint="#ffffff"
-        tintOpacity={0.15}
+        tintOpacity={0.16}
         blur={14}
-        textColor="#051326"
+        textColor="#ffffff"
         lineColor="#ffffff"
-        baseColor="#2563EB"
-        intensity={1.8}
-        idleIntensity={0.8}
-        shineSize={28}
-        shineFade={42}
-        thickness={1.6}
+        baseColor="#0077EE"
+        intensity={1.6}
+        idleIntensity={0.7}
+        shineSize={26}
+        shineFade={40}
+        thickness={1.5}
         glow={1.4}
         autoAnimate
         speed={0.4}
         followMouse
-        proximity={300}
+        proximity={280}
         onClick={handleClick}
-        className="shadow-2xl transition-all duration-300 group-hover:scale-105 active:scale-95 font-bold cursor-pointer"
+        className="cursor-pointer shadow-[0_10px_35px_-4px_rgba(0,128,255,0.65),0_0_25px_rgba(56,189,248,0.35)] transition-all duration-300 transform group-hover:scale-105 group-hover:-translate-y-0.5 active:scale-95 border border-white/30 backdrop-blur-md"
         style={{
-          background: 'linear-gradient(180deg, #3B82F6 0%, #1D4ED8 100%)',
-          color: '#051326',
-          boxShadow: '0 12px 35px -6px rgba(29, 78, 216, 0.65), 0 0 20px rgba(59, 130, 246, 0.4)'
+          background: 'linear-gradient(135deg, #1E88E5 0%, #0066CC 100%)',
+          color: '#ffffff'
         }}
-        aria-label="Meetiva App"
+        aria-label="Explore Meetiva Project"
       >
-        <span className="flex items-center justify-center px-4 py-1">
-          <span className="font-extrabold text-[15px] sm:text-base tracking-tight text-[#051326] drop-shadow-[0_1px_1px_rgba(255,255,255,0.4)]">
+        <span className="flex items-center gap-2.5 px-3.5 py-1">
+          {/* Glowing pulse indicator dot */}
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4ADE80] opacity-80" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#22C55E]" />
+          </span>
+
+          {/* Project Name */}
+          <span className="font-extrabold text-[14px] tracking-tight text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
             Meetiva
+          </span>
+
+          {/* Arrow badge */}
+          <span className="flex items-center justify-center w-5 h-5 rounded-full bg-white/20 text-white text-xs font-bold transition-transform group-hover:translate-x-0.5">
+            →
           </span>
         </span>
       </SpecularButton>
