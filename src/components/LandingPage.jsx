@@ -21,21 +21,50 @@ const FAQS = [
   }
 ];
 
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqbgzSV6zqx8hBYM1gHdLidpNxPizj4Q9el-9p-yZraGnDOScSaz_r0e7HsflertC6/exec';
+
 export default function LandingPage({ onBack }) {
   const [heroEmail, setHeroEmail] = useState('');
+  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
 
-  const handleJoin = (emailVal) => {
-    if (!emailVal || !emailVal.includes('@')) return;
+  const handleJoin = async (emailVal) => {
+    if (!emailVal || !emailVal.includes('@') || loading) return;
+    setLoading(true);
+
     try {
-      const saved = JSON.parse(localStorage.getItem('meetiva_waitlist') || '[]');
-      saved.push({ email: emailVal, timestamp: new Date().toISOString() });
-      localStorage.setItem('meetiva_waitlist', JSON.stringify(saved));
-    } catch {
-      // ignore
+      // Send to Google Sheets via Apps Script Web App
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors', // standard for Google Apps Script to bypass browser CORS preflights
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: emailVal.trim(),
+          source: 'meetiva-landing'
+        }),
+      });
+
+      // Save locally as fallback/cache
+      try {
+        const saved = JSON.parse(localStorage.getItem('meetiva_waitlist') || '[]');
+        saved.push({ email: emailVal, timestamp: new Date().toISOString() });
+        localStorage.setItem('meetiva_waitlist', JSON.stringify(saved));
+      } catch {
+        // ignore
+      }
+
+      setSubmitted(true);
+      setHeroEmail('');
+    } catch (err) {
+      console.error('Waitlist submit error:', err);
+      // Even if network blips, mark as submitted locally
+      setSubmitted(true);
+    } finally {
+      setLoading(false);
     }
-    setSubmitted(true);
   };
 
   const handleBack = (e) => {
@@ -106,9 +135,10 @@ export default function LandingPage({ onBack }) {
           />
           <button
             type="submit"
-            className="inline-flex items-center justify-center px-5 sm:px-6 py-2.5 rounded-full bg-[#0080FF] hover:bg-[#0070E0] text-white text-xs sm:text-sm font-semibold transition-all shadow-md active:scale-95 cursor-pointer whitespace-nowrap"
+            disabled={loading}
+            className="inline-flex items-center justify-center px-5 sm:px-6 py-2.5 rounded-full bg-[#0080FF] hover:bg-[#0070E0] text-white text-xs sm:text-sm font-semibold transition-all shadow-md active:scale-95 cursor-pointer whitespace-nowrap disabled:opacity-75 disabled:cursor-not-allowed"
           >
-            {submitted ? 'Joined ✓' : 'join to the waitlist'}
+            {loading ? 'Joining...' : submitted ? 'Joined ✓' : 'join to the waitlist'}
           </button>
         </form>
 
