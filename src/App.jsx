@@ -3,6 +3,8 @@ import SeoHead from './components/SeoHead';
 import ContactForm from './components/ContactForm';
 import PixelTrail from './components/PixelTrail';
 import ASCIIText from './components/ASCIIText';
+import LandingPage from './components/LandingPage';
+import MeetivaFloatingButton from './components/MeetivaFloatingButton';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // ─── Projects Data (Curated 3 Featured Projects) ───────────────────────────
@@ -39,6 +41,50 @@ export default function App() {
   const [dissolveProgress, setDissolveProgress] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isDismissingRef = useRef(false);
+
+  // ─── Simple Routing for Meetiva Landing Page ──────────────────────────────
+  const [currentPath, setCurrentPath] = useState(() => {
+    if (typeof window === 'undefined') return '/';
+    const path = window.location.pathname;
+    const hash = window.location.hash;
+    return path === '/meetiva' || hash === '#meetiva' || hash === '#/meetiva' ? '/meetiva' : '/';
+  });
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      const isMeetiva =
+        window.location.pathname === '/meetiva' ||
+        window.location.hash === '#meetiva' ||
+        window.location.hash === '#/meetiva';
+      setCurrentPath(isMeetiva ? '/meetiva' : '/');
+    };
+
+    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('hashchange', handleLocationChange);
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener('hashchange', handleLocationChange);
+    };
+  }, []);
+
+  const navigateTo = (path) => {
+    window.history.pushState({}, '', path);
+    setCurrentPath(path);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  if (currentPath === '/meetiva') {
+    return (
+      <>
+        <SeoHead
+          title="Meetiva | Interest-Based Video Matching Mobile App"
+          description="Early access beta waitlist for Meetiva. Connect through shared interests with 1-on-1 WebRTC video matching."
+          path="/meetiva"
+        />
+        <LandingPage onBack={() => navigateTo('/')} />
+      </>
+    );
+  }
 
   const triggerDismiss = () => {
     if (isDismissingRef.current || introDismissed) return;
@@ -662,6 +708,9 @@ export default function App() {
           </footer>
         </section>
       </main>
+
+      {/* ── Fixed Meetiva SpecularButton at bottom ── */}
+      {introDismissed && <MeetivaFloatingButton onNavigate={navigateTo} />}
     </div>
   );
 }
