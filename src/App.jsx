@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import SeoHead from './components/SeoHead';
 import ContactForm from './components/ContactForm';
 import PixelTrail from './components/PixelTrail';
@@ -73,20 +73,7 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (currentPath === '/meetiva') {
-    return (
-      <>
-        <SeoHead
-          title="Meetiva | Interest-Based Video Matching Mobile App"
-          description="Early access beta waitlist for Meetiva. Connect through shared interests with 1-on-1 WebRTC video matching."
-          path="/meetiva"
-        />
-        <LandingPage onBack={() => navigateTo('/')} />
-      </>
-    );
-  }
-
-  const triggerDismiss = () => {
+  const triggerDismiss = useCallback(() => {
     if (isDismissingRef.current || introDismissed) return;
     isDismissingRef.current = true;
 
@@ -106,11 +93,11 @@ export default function App() {
     };
 
     requestAnimationFrame(step);
-  };
+  }, [introDismissed]);
 
   // Auto-dismiss Hey! intro after 2 seconds on mobile
   useEffect(() => {
-    if (introDismissed || isDismissingRef.current) return;
+    if (currentPath === '/meetiva' || introDismissed || isDismissingRef.current) return;
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     if (isMobile) {
       const timer = setTimeout(() => {
@@ -118,11 +105,11 @@ export default function App() {
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [introDismissed]);
+  }, [currentPath, introDismissed, triggerDismiss]);
 
   // Dismiss intro on scroll (wheel, touch, or keys)
   useEffect(() => {
-    if (introDismissed || isDismissingRef.current) return;
+    if (currentPath === '/meetiva' || introDismissed || isDismissingRef.current) return;
 
     const onWheel = (e) => {
       if (Math.abs(e.deltaY) > 6 || Math.abs(e.deltaX) > 6) {
@@ -157,7 +144,20 @@ export default function App() {
       window.removeEventListener('touchstart', onTouchStart);
       window.removeEventListener('touchmove', onTouchMove);
     };
-  }, [introDismissed]);
+  }, [currentPath, introDismissed, triggerDismiss]);
+
+  if (currentPath === '/meetiva') {
+    return (
+      <>
+        <SeoHead
+          title="Meetiva | Interest-Based Video Matching Mobile App"
+          description="Early access beta waitlist for Meetiva. Connect through shared interests with 1-on-1 WebRTC video matching."
+          path="/meetiva"
+        />
+        <LandingPage onBack={() => navigateTo('/')} />
+      </>
+    );
+  }
 
   const handleCopyEmail = (e) => {
     e.preventDefault();
